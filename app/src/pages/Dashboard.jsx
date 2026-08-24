@@ -32,12 +32,12 @@ export default function Dashboard() {
   return (
     <main className="dashboard">
       <div className="container dash-head">
-        <div className="eyebrow">Live demo · simulated data</div>
-        <h1>Monitoring console</h1>
+        <div className="eyebrow">Live demo · sample portfolio</div>
+        <h1>Risk console</h1>
         <p className="dash-sub">
-          The portfolio below is illustrative. The panel underneath it is <b>live</b> — it scores real Governor DAOs
-          from Covalent GoldRush data on demand. Incident 003 is pre-loaded with a real attack's actual timeline,
-          protocol name withheld on purpose.
+          The portfolio below is illustrative. The panel underneath it is <b>live</b>, scoring real Governor DAOs
+          from Covalent GoldRush data on demand. Incident 003 carries a real attack's timeline, with the protocol
+          name withheld on purpose.
         </p>
       </div>
 

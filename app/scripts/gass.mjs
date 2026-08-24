@@ -24,7 +24,11 @@ function usd(n) {
   if (n >= 1e9) return `$${(n / 1e9).toFixed(2)}B`
   if (n >= 1e6) return `$${(n / 1e6).toFixed(2)}M`
   if (n >= 1e3) return `$${(n / 1e3).toFixed(1)}K`
-  return `$${n}`
+  return `$${Math.round(n)}`
+}
+
+function price(n) {
+  return n == null ? 'n/a' : `$${Number(n).toLocaleString(undefined, { maximumSignificantDigits: 4 })}`
 }
 
 for (const id of targets) {
@@ -40,7 +44,7 @@ for (const id of targets) {
     console.log(`  ----`)
     console.log(`  treasury at risk        ${usd(d.valueAtRiskUSD)}`)
     console.log(`  capture-cost floor      ${usd(d.captureCostFloorUSD)}   (spot × quorum, no slippage)`)
-    console.log(`  spot price              ${d.spotUSD != null ? '$' + d.spotUSD : 'n/a'}`)
+    console.log(`  spot price              ${price(d.spotUSD)}`)
     console.log(`  holders sampled         ${d.holdersSampled}`)
     console.log(`  source: ${r.source} · ${r.version}`)
   } catch (err) {

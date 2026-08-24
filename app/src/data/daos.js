@@ -34,7 +34,8 @@ export const DAOS = {
     token: '0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72', // ENS
     treasury: '0xFe89cc7aBB2C4183683ab71653C4cdc9B02D44b7', // DAO Wallet / Timelock
     governor: '0x323A76393544d5ecca80cd6ef2A560C6a395b7E3', // Governor
-    quorumTokens: 1_000_000, // ENS needed for quorum (approx)
+    // ENS uses a fraction-of-supply quorum, so resolve it against live supply.
+    quorumFraction: 0.01, // ~1% of supply
   },
 }
 

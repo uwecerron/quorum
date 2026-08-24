@@ -4,8 +4,8 @@
 //
 //   GOLDRUSH_API_KEY=cqt_xxx node scripts/leaderboard.mjs
 //
-// That JSON is what a public "Governance Risk Radar" page renders — the
-// low-effort, high-impact, shareable asset. Re-run daily (cron) to refresh.
+// That JSON is what a public "Governance Risk Radar" page renders.
+// Re-run daily (for example on a cron) to refresh.
 
 import { writeFile } from 'node:fs/promises'
 import { scoreDao } from '../src/lib/gass.js'

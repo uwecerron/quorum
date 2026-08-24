@@ -1,7 +1,7 @@
 // All data in this file is illustrative / simulated for demo purposes.
 // The "Incident 003" case study numbers are drawn from public post-incident
 // reporting on a real Aug 23 2026 DAO governance capture (protocol name withheld
-// by design — see note in Landing.jsx). Dollar figures and mechanics are real;
+// by design, see note in Landing.jsx). Dollar figures and mechanics are real;
 // the protocol identity is deliberately not attached to this product.
 
 export const protocols = [
@@ -13,11 +13,11 @@ export const protocols = [
     trend: 'up',
     treasury: 41_200_000,
     status: 'breached',
-    statusLabel: 'Breached — Aug 23',
+    statusLabel: 'Breached Aug 23',
     turnout: 11,
     timelockHrs: 0,
     guardian: 'none configured',
-    note: 'Governance capture executed against a live DeFi vault protocol. $8.5M drained across 4 USDC vaults + an ETH meta vault. Name withheld — the pattern is the point, not the target.',
+    note: 'Governance capture executed against a live DeFi vault protocol. $8.5M drained across 4 USDC vaults plus an ETH meta vault. The name is withheld because the pattern matters more than the target.',
   },
   {
     id: 'harbor-dao',
@@ -86,7 +86,7 @@ export const factors = [
   { key: 'Turnout history', value: 'How much of the electorate typically shows up' },
 ]
 
-// Reconstructed Incident 003 timeline — "what happened" vs. "what Sentinel would
+// Reconstructed Incident 003 timeline: "what happened" vs. "what Sentinel would
 // have surfaced at each step, had it been monitoring this protocol."
 export const incidentReplay = [
   {
@@ -110,7 +110,7 @@ export const incidentReplay = [
   {
     t: 'T+3',
     actual: 'Voted yes by the only wallet that matters. Executed. $8.5M gone.',
-    sentinel: 'Guardian Response Network paged at T+2. Veto window still open — execution never clears the timelock.',
+    sentinel: 'Guardian Response Network paged at T+2. Veto window still open, so execution never clears the timelock.',
     severity: 'resolved',
   },
 ]

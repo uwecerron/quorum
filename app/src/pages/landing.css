@@ -126,6 +126,17 @@ h2.section-title {
   margin-bottom: 44px;
 }
 
+.section-sub .ext {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 500;
+}
+
+.section-sub .ext:hover {
+  color: var(--accent-strong);
+}
+
 /* attack timeline */
 .timeline {
   display: flex;

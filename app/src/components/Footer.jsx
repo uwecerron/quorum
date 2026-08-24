@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="container footer-inner">
         <div className="fbrand">◆ QUORUM SENTINEL</div>
         <div className="fnote mono">
-          Governance attack surface monitoring — spec + demo built for Traders Guild, Aug 2026
+          Governance risk ratings on public on-chain data. Powered by Covalent GoldRush.
         </div>
       </div>
     </footer>
