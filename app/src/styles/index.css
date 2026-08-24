@@ -1,22 +1,24 @@
 :root {
-  --bg: #f6f7f9;
+  /* Institutional / editorial palette — cool paper, deep ink, sober navy.
+     Tuned to read like a serious financial network, not a retail crypto app. */
+  --bg: #f5f6f7;
   --surface: #ffffff;
-  --surface-2: #eef0f4;
-  --border: #dde1e8;
-  --border-soft: #e7eaef;
-  --text: #12141a;
-  --text-dim: #565f72;
-  --text-faint: #8890a0;
-  --accent: #0f9d8c;
-  --accent-soft: rgba(15, 157, 140, 0.1);
-  --accent-strong: #0c7c6f;
-  --danger: #d9432c;
-  --danger-soft: rgba(217, 67, 44, 0.1);
-  --warn: #b5790f;
-  --warn-soft: rgba(181, 121, 15, 0.12);
+  --surface-2: #eceef1;
+  --border: #dee1e6;
+  --border-soft: #e9ebef;
+  --text: #16181d;
+  --text-dim: #545a63;
+  --text-faint: #878d97;
+  --accent: #1c3d5a;
+  --accent-soft: rgba(28, 61, 90, 0.08);
+  --accent-strong: #142c42;
+  --danger: #b23a2c;
+  --danger-soft: rgba(178, 58, 44, 0.09);
+  --warn: #9a7526;
+  --warn-soft: rgba(154, 117, 38, 0.12);
 
-  --font-display: 'Unbounded', 'Arial Black', sans-serif;
-  --font-body: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
 
   color-scheme: light;
@@ -24,41 +26,41 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #090c12;
-    --surface: #10141d;
-    --surface-2: #161c28;
-    --border: #232a3a;
-    --border-soft: #1a2030;
-    --text: #e9ecf3;
-    --text-dim: #8a92a6;
-    --text-faint: #545d72;
-    --accent: #4fd8c4;
-    --accent-soft: rgba(79, 216, 196, 0.14);
-    --accent-strong: #7ff0de;
-    --danger: #ff6b57;
-    --danger-soft: rgba(255, 107, 87, 0.14);
-    --warn: #f5b759;
-    --warn-soft: rgba(245, 183, 89, 0.14);
+    --bg: #0f1216;
+    --surface: #161a20;
+    --surface-2: #1d222a;
+    --border: #2a303a;
+    --border-soft: #20252d;
+    --text: #e9ecf1;
+    --text-dim: #9aa2ad;
+    --text-faint: #626a76;
+    --accent: #7fa8cf;
+    --accent-soft: rgba(127, 168, 207, 0.14);
+    --accent-strong: #a6c4e0;
+    --danger: #d98576;
+    --danger-soft: rgba(217, 133, 118, 0.14);
+    --warn: #cba768;
+    --warn-soft: rgba(203, 167, 104, 0.14);
     color-scheme: dark;
   }
 }
 
 :root[data-theme='dark'] {
-  --bg: #090c12;
-  --surface: #10141d;
-  --surface-2: #161c28;
-  --border: #232a3a;
-  --border-soft: #1a2030;
-  --text: #e9ecf3;
-  --text-dim: #8a92a6;
-  --text-faint: #545d72;
-  --accent: #4fd8c4;
-  --accent-soft: rgba(79, 216, 196, 0.14);
-  --accent-strong: #7ff0de;
-  --danger: #ff6b57;
-  --danger-soft: rgba(255, 107, 87, 0.14);
-  --warn: #f5b759;
-  --warn-soft: rgba(245, 183, 89, 0.14);
+  --bg: #0f1216;
+  --surface: #161a20;
+  --surface-2: #1d222a;
+  --border: #2a303a;
+  --border-soft: #20252d;
+  --text: #e9ecf1;
+  --text-dim: #9aa2ad;
+  --text-faint: #626a76;
+  --accent: #7fa8cf;
+  --accent-soft: rgba(127, 168, 207, 0.14);
+  --accent-strong: #a6c4e0;
+  --danger: #d98576;
+  --danger-soft: rgba(217, 133, 118, 0.14);
+  --warn: #cba768;
+  --warn-soft: rgba(203, 167, 104, 0.14);
   color-scheme: dark;
 }
 
@@ -86,8 +88,10 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-body);
-  line-height: 1.55;
+  line-height: 1.6;
+  letter-spacing: -0.003em;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 a {
@@ -98,9 +102,10 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.01em;
+  font-optical-sizing: auto;
+  font-weight: 560;
+  line-height: 1.06;
+  letter-spacing: -0.012em;
   text-wrap: balance;
   margin: 0;
 }
