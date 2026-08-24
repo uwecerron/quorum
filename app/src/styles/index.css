@@ -1,0 +1,125 @@
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #eef0f4;
+  --border: #dde1e8;
+  --border-soft: #e7eaef;
+  --text: #12141a;
+  --text-dim: #565f72;
+  --text-faint: #8890a0;
+  --accent: #0f9d8c;
+  --accent-soft: rgba(15, 157, 140, 0.1);
+  --accent-strong: #0c7c6f;
+  --danger: #d9432c;
+  --danger-soft: rgba(217, 67, 44, 0.1);
+  --warn: #b5790f;
+  --warn-soft: rgba(181, 121, 15, 0.12);
+
+  --font-display: 'Unbounded', 'Arial Black', sans-serif;
+  --font-body: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #090c12;
+    --surface: #10141d;
+    --surface-2: #161c28;
+    --border: #232a3a;
+    --border-soft: #1a2030;
+    --text: #e9ecf3;
+    --text-dim: #8a92a6;
+    --text-faint: #545d72;
+    --accent: #4fd8c4;
+    --accent-soft: rgba(79, 216, 196, 0.14);
+    --accent-strong: #7ff0de;
+    --danger: #ff6b57;
+    --danger-soft: rgba(255, 107, 87, 0.14);
+    --warn: #f5b759;
+    --warn-soft: rgba(245, 183, 89, 0.14);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: #090c12;
+  --surface: #10141d;
+  --surface-2: #161c28;
+  --border: #232a3a;
+  --border-soft: #1a2030;
+  --text: #e9ecf3;
+  --text-dim: #8a92a6;
+  --text-faint: #545d72;
+  --accent: #4fd8c4;
+  --accent-soft: rgba(79, 216, 196, 0.14);
+  --accent-strong: #7ff0de;
+  --danger: #ff6b57;
+  --danger-soft: rgba(255, 107, 87, 0.14);
+  --warn: #f5b759;
+  --warn-soft: rgba(245, 183, 89, 0.14);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 56px);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
