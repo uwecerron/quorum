@@ -120,7 +120,7 @@ export default function LiveScore() {
 }
 
 function Component({ label, value, hint }) {
-  const color = value >= 66 ? 'var(--danger)' : value >= 33 ? 'var(--warn)' : 'var(--accent)'
+  const color = value >= 66 ? 'var(--danger)' : value >= 33 ? 'var(--warn)' : 'var(--good)'
   return (
     <div className="ls-comp">
       <div className="ls-comp-top">

@@ -4,7 +4,7 @@ const CIRC = Math.PI * RADIUS // half-circle arc length
 function colorFor(score) {
   if (score >= 70) return 'var(--danger)'
   if (score >= 45) return 'var(--warn)'
-  return 'var(--accent)'
+  return 'var(--good)'
 }
 
 export default function Gauge({ score, label, size = 220 }) {

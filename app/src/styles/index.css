@@ -1,67 +1,33 @@
 :root {
-  /* Institutional / editorial palette — cool paper, deep ink, sober navy.
-     Tuned to read like a serious financial network, not a retail crypto app. */
-  --bg: #f5f6f7;
+  /* Matched to tradersguild.global — LIGHT ONLY. White ground, ink text,
+     burnt-orange accent, elegant Didone display. The Guild is a light brand,
+     so this app commits to one light identity and does NOT follow system dark
+     mode. Risk semantics (red/amber/green) stay separate from the brand orange. */
+  --bg: #ffffff;
   --surface: #ffffff;
-  --surface-2: #eceef1;
-  --border: #dee1e6;
-  --border-soft: #e9ebef;
-  --text: #16181d;
-  --text-dim: #545a63;
-  --text-faint: #878d97;
-  --accent: #1c3d5a;
-  --accent-soft: rgba(28, 61, 90, 0.08);
-  --accent-strong: #142c42;
-  --danger: #b23a2c;
-  --danger-soft: rgba(178, 58, 44, 0.09);
-  --warn: #9a7526;
-  --warn-soft: rgba(154, 117, 38, 0.12);
+  --surface-2: #f7f6f4;
+  --border: #e7e5e1;
+  --border-soft: #efedea;
+  --text: #1b1b1b;
+  --text-dim: #55534e;
+  --text-faint: #8f8c86;
+  --accent: #cf6636;
+  --accent-soft: rgba(207, 102, 54, 0.1);
+  --accent-strong: #b4531f;
+  --danger: #b3271e;
+  --danger-soft: rgba(179, 39, 30, 0.09);
+  --warn: #b0862a;
+  --warn-soft: rgba(176, 134, 42, 0.12);
+  --good: #3f7d5a;
 
-  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --radius: 2px;
+  --radius-lg: 3px;
+
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
 
   color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --bg: #0f1216;
-    --surface: #161a20;
-    --surface-2: #1d222a;
-    --border: #2a303a;
-    --border-soft: #20252d;
-    --text: #e9ecf1;
-    --text-dim: #9aa2ad;
-    --text-faint: #626a76;
-    --accent: #7fa8cf;
-    --accent-soft: rgba(127, 168, 207, 0.14);
-    --accent-strong: #a6c4e0;
-    --danger: #d98576;
-    --danger-soft: rgba(217, 133, 118, 0.14);
-    --warn: #cba768;
-    --warn-soft: rgba(203, 167, 104, 0.14);
-    color-scheme: dark;
-  }
-}
-
-:root[data-theme='dark'] {
-  --bg: #0f1216;
-  --surface: #161a20;
-  --surface-2: #1d222a;
-  --border: #2a303a;
-  --border-soft: #20252d;
-  --text: #e9ecf1;
-  --text-dim: #9aa2ad;
-  --text-faint: #626a76;
-  --accent: #7fa8cf;
-  --accent-soft: rgba(127, 168, 207, 0.14);
-  --accent-strong: #a6c4e0;
-  --danger: #d98576;
-  --danger-soft: rgba(217, 133, 118, 0.14);
-  --warn: #cba768;
-  --warn-soft: rgba(203, 167, 104, 0.14);
-  color-scheme: dark;
 }
 
 * {
@@ -70,6 +36,7 @@
 
 html {
   scroll-behavior: smooth;
+  background: var(--bg);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -89,7 +56,6 @@ body {
   color: var(--text);
   font-family: var(--font-body);
   line-height: 1.6;
-  letter-spacing: -0.003em;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -102,10 +68,9 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-optical-sizing: auto;
-  font-weight: 560;
-  line-height: 1.06;
-  letter-spacing: -0.012em;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.005em;
   text-wrap: balance;
   margin: 0;
 }
