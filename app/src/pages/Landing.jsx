@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Gauge from '../components/Gauge'
 import LiveScore from '../components/LiveScore'
 import { factors } from '../data/mock'
@@ -77,6 +78,10 @@ export default function Landing() {
             ))}
           </div>
         </div>
+
+        <p className="section-sub" style={{ marginTop: '28px', marginBottom: 0 }}>
+          <Link className="ext" to="/dashboard">Replay this incident, step by step →</Link>
+        </p>
       </section>
 
       <section className="l-section" id="score">

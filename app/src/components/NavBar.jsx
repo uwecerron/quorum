@@ -9,7 +9,12 @@ export default function NavBar() {
           <span className="mark" />
           QUORUM SENTINEL
         </Link>
-        <div className="nav-tag mono">Governance risk ratings · Covalent GoldRush</div>
+        <nav className="nav-right">
+          <span className="nav-tag mono">Covalent GoldRush</span>
+          <Link to="/dashboard" className="nav-btn">
+            Replay incident
+          </Link>
+        </nav>
       </div>
     </header>
   )
