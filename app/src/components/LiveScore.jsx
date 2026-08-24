@@ -50,9 +50,9 @@ export default function LiveScore() {
           <div className="ls-eyebrow mono">Live · Covalent GoldRush</div>
           <h2>Score a real DAO from on-chain data</h2>
           <p>
-            This pulls live token-holder distribution and treasury balances from GoldRush and computes a GASS v0 on
-            the spot — no mock data. Big, deep-float DAOs should score <b>low</b> (they're hard to capture); that's
-            the model telling the truth.
+            This pulls live token-holder distribution and treasury balances from Covalent GoldRush and computes a
+            GASS on the spot — no mock data. Watch them differ: the deepest, most liquid token is hardest to capture
+            and scores <b>lowest</b>; a thinner, more concentrated one scores higher. Real capture-difficulty, live.
           </p>
         </div>
       </div>
@@ -101,7 +101,7 @@ export default function LiveScore() {
           </div>
           <div className="ls-breakdown">
             <div className="ls-components">
-              <Component label="Affordability" value={d.components.affordability} hint="capture-cost floor vs. treasury" />
+              <Component label="Affordability" value={d.components.affordability} hint="cost to buy quorum control (absolute $)" />
               <Component label="Concentration" value={d.components.concentration} hint={`top-10 hold ${d.detail.top10Share}% of supply`} />
               <Component label="Ease of quorum" value={d.components.easeOfQuorum} hint={`quorum = ${d.detail.quorumShareOfSupply}% of supply`} />
             </div>

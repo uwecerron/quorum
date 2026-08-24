@@ -118,9 +118,7 @@ export default function Landing() {
         <div className="eyebrow">03 — Scan it live</div>
         <h2 className="section-title">Score a real DAO, right now</h2>
         <p className="section-sub">
-          This pulls live token-holder distribution and treasury balances from Covalent GoldRush and computes a GASS
-          on the spot — no mock data. Deep-float blue chips should score <b>low</b> (hard to capture); that's the
-          rating telling the truth.
+          Pick a DAO. Every number below is computed live from Covalent GoldRush — no mock data.
         </p>
         <LiveScore />
       </section>

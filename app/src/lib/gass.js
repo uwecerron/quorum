@@ -45,7 +45,22 @@ export async function fetchConcentration(dao, apiKey) {
 
   const decimals = items[0].contract_decimals ?? 18
   const totalSupply = toUnits(items[0].total_supply, decimals)
-  const balances = items
+
+  // Exclude the protocol's OWN contracts from "external" concentration — a DAO
+  // holding its own tokens in the treasury/timelock/governor, or supply parked
+  // in the token contract or a burn address, is not a hostile capture vector.
+  const exclude = new Set(
+    [
+      dao.treasury,
+      dao.governor,
+      dao.token,
+      '0x0000000000000000000000000000000000000000',
+      '0x000000000000000000000000000000000000dead',
+    ].map((a) => (a || '').toLowerCase()),
+  )
+  const external = items.filter((h) => !exclude.has((h.address || '').toLowerCase()))
+
+  const balances = external
     .map((h) => toUnits(h.balance, decimals))
     .filter((b) => b > 0)
     .sort((a, b) => b - a)
@@ -53,7 +68,7 @@ export async function fetchConcentration(dao, apiKey) {
   const top10 = balances.slice(0, 10).reduce((s, b) => s + b, 0)
   const top10Share = totalSupply > 0 ? top10 / totalSupply : 0
 
-  // HHI over the fetched holders (top ~1000), on share-of-total-supply.
+  // HHI over the fetched external holders, on share-of-total-supply.
   const hhi = balances.reduce((s, b) => {
     const share = totalSupply > 0 ? b / totalSupply : 0
     return s + share * share
@@ -64,7 +79,7 @@ export async function fetchConcentration(dao, apiKey) {
     holdersSampled: balances.length,
     top10Share,
     hhi,
-    topHolder: items[0].address,
+    topHolder: external[0] ? external[0].address : items[0].address,
   }
 }
 
@@ -109,14 +124,19 @@ function clamp01(x) {
 export function combineGass({ conc, var: varr, spotUSD, quorumTokens }) {
   const captureCostFloorUSD = spotUSD != null ? quorumTokens * spotUSD : null
 
-  // affordability: cheaper-than-treasury capture = higher risk.
-  // NOTE: floor ignores slippage, so it UNDERSTATES real cost (overstates risk).
+  // affordability: how cheap, in ABSOLUTE dollars, to buy quorum-passing power.
+  // Log scale — ~$50K or less is maximally capturable (cf. the 2-ETH incident),
+  // ~$500M or more is effectively out of reach. This is what makes deep, liquid
+  // blue chips score low and thin micro-cap DAOs score high. Treasury value is
+  // reported separately as the stakes, not folded into capturability.
   let affordability = 0
-  if (captureCostFloorUSD != null && varr.valueAtRiskUSD > 0) {
-    affordability = 1 - clamp01(captureCostFloorUSD / varr.valueAtRiskUSD)
+  if (captureCostFloorUSD != null && captureCostFloorUSD > 0) {
+    const lo = Math.log10(50_000)
+    const hi = Math.log10(500_000_000)
+    affordability = clamp01((hi - Math.log10(captureCostFloorUSD)) / (hi - lo))
   }
 
-  // concentration: top-10 share of supply, saturating at 60%.
+  // concentration: top-10 EXTERNAL holders' share of supply, saturating at 60%.
   const concentration = clamp01(conc.top10Share / 0.6)
 
   // easeOfQuorum: small quorum vs. supply = easier = higher risk (saturate <10%).
@@ -124,7 +144,7 @@ export function combineGass({ conc, var: varr, spotUSD, quorumTokens }) {
   const easeOfQuorum = 1 - clamp01(quorumShare / 0.1)
 
   const gass = Math.round(
-    100 * (0.5 * affordability + 0.3 * concentration + 0.2 * easeOfQuorum),
+    100 * (0.6 * affordability + 0.2 * concentration + 0.2 * easeOfQuorum),
   )
 
   return {

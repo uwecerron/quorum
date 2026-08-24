@@ -34,7 +34,7 @@ for (const id of targets) {
     console.log('\n' + '─'.repeat(52))
     console.log(`  ${r.dao.name} (${r.dao.ticker})   GASS ${r.gass}/100`)
     console.log('─'.repeat(52))
-    console.log(`  affordability   ${String(r.components.affordability).padStart(3)}   (capture-cost floor vs. treasury)`)
+    console.log(`  affordability   ${String(r.components.affordability).padStart(3)}   (cost to buy quorum, absolute $)`)
     console.log(`  concentration   ${String(r.components.concentration).padStart(3)}   (top-10 hold ${d.top10Share}% of supply)`)
     console.log(`  ease-of-quorum  ${String(r.components.easeOfQuorum).padStart(3)}   (quorum = ${d.quorumShareOfSupply}% of supply)`)
     console.log(`  ----`)
