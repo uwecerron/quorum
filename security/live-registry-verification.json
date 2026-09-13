@@ -1,0 +1,514 @@
+{
+  "checkedAt": "2026-09-13T15:11:01.074Z",
+  "scope": "Read-only RPC; GoldRush balances and pricing are not verified by this script",
+  "results": [
+    {
+      "id": "forth",
+      "source": "https://github.com/fragmentsorg/Forth",
+      "tokenCodePresent": true,
+      "symbol": "FORTH",
+      "decimals": 18,
+      "totalSupplyRaw": "15297897144559330607622906",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": "0x8a994C6F55Be1fD2B4d0dc3B8f8F7D4E3a2dA8F1",
+        "model": "token-vote",
+        "quorumTokens": 600000,
+        "quorumMethod": "quorumVotes()",
+        "delaySeconds": 172800
+      },
+      "wallets": [
+        {
+          "label": "DAO Timelock",
+          "address": "0x223592a191ECfC7FDC38a9256c3BD96E771539A9",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "radworks",
+      "source": "https://docs.radworks.org/governance/overview/",
+      "tokenCodePresent": true,
+      "symbol": "RAD",
+      "decimals": 18,
+      "totalSupplyRaw": "99998580000000000000000000",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": "0xD64D01D04498bFc60f04178e0B62a757C5048212",
+        "model": "token-vote",
+        "quorumTokens": 4000000,
+        "quorumMethod": "quorum(clock - 1)",
+        "delaySeconds": 172800
+      },
+      "wallets": [
+        {
+          "label": "DAO Timelock",
+          "address": "0x8dA8f82d2BbDd896822de723F55D6EdF416130ba",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "gitcoin",
+      "source": "https://github.com/gitcoinco/governance-docs",
+      "tokenCodePresent": true,
+      "symbol": "GTC",
+      "decimals": 18,
+      "totalSupplyRaw": "100000000000000000000000000",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": "0x9D4C63565D5618310271bF3F3c01b2954C1D1639",
+        "model": "token-vote",
+        "quorumTokens": 2500000,
+        "quorumMethod": "quorum(clock - 1)",
+        "delaySeconds": 172800
+      },
+      "wallets": [
+        {
+          "label": "DAO Timelock",
+          "address": "0x57a8865cfB1eCEf7253c27da6B4BC3dAEE5Be518",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "uni",
+      "source": "https://docs.uniswap.org/contracts/v3/reference/deployments/ethereum-deployments",
+      "tokenCodePresent": true,
+      "symbol": "UNI",
+      "decimals": 18,
+      "totalSupplyRaw": "1000000000000000000000000000",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": "0x408ED6354d4973f66138C91495F2f2FCbd8724C3",
+        "model": "token-vote",
+        "quorumTokens": 40000000,
+        "quorumMethod": "quorumVotes()",
+        "delaySeconds": 172800
+      },
+      "wallets": [
+        {
+          "label": "Timelock",
+          "address": "0x1a9C8182C09F50C8318d769245beA52c32BE35BC",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "comp",
+      "source": "https://docs.compound.finance/v2/governance/",
+      "tokenCodePresent": true,
+      "symbol": "COMP",
+      "decimals": 18,
+      "totalSupplyRaw": "10000000000000000000000000",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": "0x309a862bbC1A00e45506cB8A802D1ff10004c8C0",
+        "model": "token-vote",
+        "quorumTokens": 400000,
+        "quorumMethod": "quorum(clock - 1)",
+        "delaySeconds": 172800
+      },
+      "wallets": [
+        {
+          "label": "Timelock",
+          "address": "0x6d903f6003cca6255D85CcA4D3B5E5146dC33925",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "ens",
+      "source": "https://docs.ens.domains/dao/",
+      "tokenCodePresent": true,
+      "symbol": "ENS",
+      "decimals": 18,
+      "totalSupplyRaw": "100000000000000000000000000",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": "0x323A76393544d5ecca80cd6ef2A560C6a395b7E3",
+        "model": "token-vote",
+        "quorumTokens": 1000000,
+        "quorumMethod": "quorum(clock - 1)",
+        "delaySeconds": 172800
+      },
+      "wallets": [
+        {
+          "label": "DAO Timelock",
+          "address": "0xFe89cc7aBB2C4183683ab71653C4cdc9B02D44b7",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "aave",
+      "source": "https://github.com/bgd-labs/aave-address-book/blob/main/src/GovernanceV3Ethereum.sol",
+      "tokenCodePresent": true,
+      "symbol": "AAVE",
+      "decimals": 18,
+      "totalSupplyRaw": "16000000000000000000000000",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": "0x9AEE0B04504CeF83A65AC3f0e838D0593BCb2BC7",
+        "model": "multi-asset-vote",
+        "quorumTokens": null,
+        "quorumMethod": null,
+        "delaySeconds": null
+      },
+      "wallets": [
+        {
+          "label": "Collector",
+          "address": "0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c",
+          "codePresent": true
+        },
+        {
+          "label": "Ecosystem Reserve",
+          "address": "0x25F2226B597E8F9514B3F68F00f494cF4f286491",
+          "source": "https://github.com/bgd-labs/aave-address-book/blob/main/src/MiscEthereum.sol",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "nouns",
+      "source": "https://github.com/nounsDAO/nouns-monorepo",
+      "tokenCodePresent": true,
+      "symbol": "NOUN",
+      "decimals": 0,
+      "totalSupplyRaw": "1993",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": "0x6f3E6272A167e8AcCb32072d08E0957F9c79223d",
+        "model": "nft-vote",
+        "quorumTokens": 136,
+        "quorumMethod": "Minimum quorum; opposition can increase the requirement",
+        "delaySeconds": 172800
+      },
+      "wallets": [
+        {
+          "label": "DAO Executor",
+          "address": "0xb1a32FC9F9D8b2cf86C068Cae13108809547ef71",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "lido",
+      "source": "https://docs.lido.fi/deployed-contracts/",
+      "tokenCodePresent": true,
+      "symbol": "LDO",
+      "decimals": 18,
+      "totalSupplyRaw": "1000000000000000000000000000",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": "0x2e59A20f205bB85a89C53f1936454680651E618e",
+        "model": "aragon",
+        "quorumTokens": 50000000,
+        "quorumMethod": "minAcceptQuorumPct() × totalSupply()",
+        "delaySeconds": null
+      },
+      "wallets": [
+        {
+          "label": "Aragon Agent",
+          "address": "0x3e40D73EB977Dc6a537aF587D48316feE66E9C8c",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "balancer",
+      "source": "https://forum.balancer.fi/t/bip-882-transitioning-onchain-operations-of-the-balancer-dao-to-balancer-onchain-limited/6859",
+      "tokenCodePresent": true,
+      "symbol": "BAL",
+      "decimals": 18,
+      "totalSupplyRaw": "72373802730013122769663735",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": null,
+        "model": "multisig",
+        "quorumTokens": null,
+        "quorumMethod": null,
+        "delaySeconds": null,
+        "signerThreshold": 5,
+        "signerCount": 7
+      },
+      "wallets": [
+        {
+          "label": "Treasury Safe",
+          "address": "0x0EFcCBb9E2C09Ea29551879bd9Da32362b32fc89",
+          "codePresent": true
+        },
+        {
+          "label": "DAO Admin Safe",
+          "address": "0x10a19e7ee7d7f8a52822f6817de8ea18204f2e4f",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "euler",
+      "source": "https://docs.euler.finance/euler-dao/treasury/",
+      "tokenCodePresent": true,
+      "symbol": "EUL",
+      "decimals": 18,
+      "totalSupplyRaw": "27182818284590452353602874",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": null,
+        "model": "multisig",
+        "quorumTokens": null,
+        "quorumMethod": null,
+        "delaySeconds": null,
+        "signerThreshold": 4,
+        "signerCount": 7
+      },
+      "wallets": [
+        {
+          "label": "Foundation Treasury",
+          "address": "0xC7C5aFDB61e08BE3e2FB09098412b5706EB5c550",
+          "codePresent": true
+        },
+        {
+          "label": "Legacy Treasury / Operations",
+          "address": "0x25Aa4a183800EcaB962d84ccC7ada58d4e126992",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "frax",
+      "source": "https://docs.frax.finance/frax-v1-original/core-frax-multisigs",
+      "tokenCodePresent": true,
+      "symbol": "FXS",
+      "decimals": 18,
+      "totalSupplyRaw": "99681495591133609740710857",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": null,
+        "model": "multisig",
+        "quorumTokens": null,
+        "quorumMethod": null,
+        "delaySeconds": null,
+        "signerThreshold": 3,
+        "signerCount": 5
+      },
+      "wallets": [
+        {
+          "label": "Ethereum Comptroller",
+          "address": "0xB1748C79709f4Ba2Dd82834B8c82D4a505003f27",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "maker",
+      "source": "https://github.com/sky-ecosystem/spells-mainnet/blob/master/src/test/addresses_mainnet.sol",
+      "tokenCodePresent": true,
+      "symbol": "SKY",
+      "decimals": 18,
+      "totalSupplyRaw": "23459804203605966560979671451",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": "0x929d9A1435662357F54AdcF64DcEE4d6b867a6f9",
+        "model": "approval-vote",
+        "quorumTokens": null,
+        "quorumMethod": null,
+        "delaySeconds": null
+      },
+      "wallets": [
+        {
+          "label": "Pause Proxy",
+          "address": "0xBE8E3e3618f7474F8cB1d074A26afFef007E98FB",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "hop",
+      "source": "https://github.com/hop-protocol/hop/blob/develop/packages/sdk/src/addresses/mainnet.ts",
+      "tokenCodePresent": true,
+      "symbol": "HOP",
+      "decimals": 18,
+      "totalSupplyRaw": "1000000000000000000000000000",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": null,
+        "model": "token-vote",
+        "quorumTokens": null,
+        "quorumMethod": null,
+        "delaySeconds": 172800
+      },
+      "wallets": [
+        {
+          "label": "DAO Timelock",
+          "address": "0xeeA8422a08258e73c139Fc32a25e10410c14bd7a",
+          "source": "https://forum.hop.exchange/t/list-of-important-addresses/693",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "instadapp",
+      "source": "https://blog.instadapp.io/inst/",
+      "tokenCodePresent": true,
+      "symbol": "FLUID",
+      "decimals": 18,
+      "totalSupplyRaw": "100000000000000000000000000",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": "0x0204Cd037B2ec03605CFdFe482D8e257C765fA1B",
+        "model": "token-vote",
+        "quorumTokens": 4000000,
+        "quorumMethod": "quorumVotes()",
+        "delaySeconds": 172800
+      },
+      "wallets": [
+        {
+          "label": "Governance Timelock",
+          "address": "0xC7Cb1dE2721BFC0E0DA1b9D526bCdC54eF1C0eFC",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "truefi",
+      "source": "https://github.com/trusttoken/smart-contracts/blob/master/deployments-mainnet.json",
+      "tokenCodePresent": true,
+      "symbol": "TRU",
+      "decimals": 8,
+      "totalSupplyRaw": "125702097520003007",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": "0x0236c16f06aAFdbea5b5EDC8C326A479DB090eB2",
+        "model": "staked-vote",
+        "quorumTokens": null,
+        "quorumMethod": null,
+        "delaySeconds": null
+      },
+      "wallets": [
+        {
+          "label": "Governance Timelock",
+          "address": "0xC4CA6d752cd6997022dd9B9C5709690CA6a079d8",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "angle",
+      "source": "https://developers.angle.money/overview/smart-contracts/mainnet-contracts",
+      "tokenCodePresent": true,
+      "symbol": "ANGLE",
+      "decimals": 18,
+      "totalSupplyRaw": "1000000000000000000000000000",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": null,
+        "model": "staked-vote",
+        "quorumTokens": null,
+        "quorumMethod": null,
+        "delaySeconds": null
+      },
+      "wallets": [
+        {
+          "label": "Governance multisig",
+          "address": "0xdC4e6DFe07EFCa50a197DF15D9200883eF4Eb1c8",
+          "source": "https://github.com/AngleProtocol/angle-governance",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "cryptex",
+      "source": "https://docs.cryptex.finance/deployed-contracts/",
+      "tokenCodePresent": true,
+      "symbol": "CTX",
+      "decimals": 18,
+      "totalSupplyRaw": "10000000000000000000000000",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": "0x874C5D592AfC6803c3DD60d6442357879F196d5b",
+        "model": "token-vote",
+        "quorumTokens": 400000,
+        "quorumMethod": "quorumVotes()",
+        "delaySeconds": 259200
+      },
+      "wallets": [
+        {
+          "label": "Timelock",
+          "address": "0xa54074b2cc0e96a43048d4a68472F7F046aC0DA8",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "silo",
+      "source": "https://docs.silo.finance/docs/users/tokenomics/silo-token/",
+      "tokenCodePresent": true,
+      "symbol": "SILO",
+      "decimals": 18,
+      "totalSupplyRaw": "919457440691741356866728389",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": null,
+        "model": "staked-vote",
+        "quorumTokens": null,
+        "quorumMethod": null,
+        "delaySeconds": null
+      },
+      "wallets": [
+        {
+          "label": "Ethereum DAO account (v2 registry)",
+          "address": "0xE8e8041cB5E3158A0829A19E014CA1cf91098554",
+          "source": "https://github.com/silo-finance/silo-contracts-v2/blob/master/common/addresses/mainnet.json",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "zeroex",
+      "source": "https://github.com/0xProject/protocol/tree/development/contracts/governance",
+      "tokenCodePresent": true,
+      "symbol": "ZRX",
+      "decimals": 18,
+      "totalSupplyRaw": "1000000000000000000000000000",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": "0x4822cfc1e7699bdb9551bdfd3a838ee414bc2008",
+        "model": "wrapped-vote",
+        "quorumTokens": null,
+        "quorumMethod": null,
+        "delaySeconds": 172800
+      },
+      "wallets": [
+        {
+          "label": "Treasury Timelock",
+          "address": "0x0dcfb77a581bc8fe432e904643a5480cc183f38d",
+          "codePresent": true
+        }
+      ]
+    },
+    {
+      "id": "inverse",
+      "source": "https://github.com/InverseFinance/inverse-web",
+      "tokenCodePresent": true,
+      "symbol": "INV",
+      "decimals": 18,
+      "totalSupplyRaw": "727000000000000000000000",
+      "governance": {
+        "blockNumber": 25969324,
+        "governor": "0xBeCCB6bb0aa4ab551966A7E4B97cec74bb359Bf6",
+        "model": "token-vote",
+        "quorumTokens": 15500,
+        "quorumMethod": "quorumVotes()",
+        "delaySeconds": 172800
+      },
+      "wallets": [
+        {
+          "label": "Anchor Treasury Timelock",
+          "address": "0x926dF14a23BE491164dCF93f4c468A50ef659D5B",
+          "codePresent": true
+        }
+      ]
+    }
+  ]
+}

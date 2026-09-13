@@ -24,12 +24,7 @@ export function createHandler(score = scoreDao, now = Date.now) {
     return res.status(400).json({ ok: false, error: 'invalid_query' })
   }
   const daoId = rawId.toLowerCase()
-  const dao = DAOS[daoId]
   if (!Object.hasOwn(DAOS, daoId)) return res.status(404).json({ ok: false, error: 'unknown_dao', message: 'Unknown DAO.' })
-  if (dao.status === 'research') return res.status(422).json({
-    ok: false, error: 'coverage_pending', message: `${dao.name}: ${dao.missing.join('; ')}`,
-    missing: dao.missing,
-  })
   const apiKey = process.env.GOLDRUSH_API_KEY
 
   if (!apiKey) {

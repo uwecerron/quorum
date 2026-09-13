@@ -199,3 +199,13 @@
   line-height: 1.6;
   color: var(--text-faint);
 }
+
+.ls-search { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin:20px 0 8px; }
+.ls-search input { font:inherit; color:inherit; border:1px solid var(--border, #ccc); background:transparent; padding:10px 12px; min-width:min(320px, 100%); max-width:100%; }
+.ls-account { padding:14px 0; border-top:1px solid var(--border, #ccc); }
+.ls-account summary { cursor:pointer; font-weight:600; margin-bottom:10px; }
+.ls-account > a { overflow-wrap:anywhere; font-size:12px; }
+.ls-table-scroll { overflow-x:auto; }
+.ls-table-scroll table { width:100%; border-collapse:collapse; font-size:13px; }
+.ls-table-scroll th, .ls-table-scroll td { text-align:left; padding:8px; border-bottom:1px solid var(--border, #ccc); }
+.ls-breakdown { min-width:0; }

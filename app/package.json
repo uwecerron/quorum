@@ -9,9 +9,12 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "score": "node scripts/gass.mjs",
-    "leaderboard": "node scripts/leaderboard.mjs"
+    "leaderboard": "node scripts/leaderboard.mjs",
+    "test": "node --test",
+    "verify:registry": "node scripts/verify-registry.mjs"
   },
   "dependencies": {
+    "ethers": "^6.17.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.2"

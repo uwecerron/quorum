@@ -35,12 +35,14 @@ for (const id of targets) {
   try {
     const r = await scoreDao(id, apiKey)
     const d = r.detail
+    if (r.scoreUnavailableReason) console.log(r.scoreUnavailableReason)
+    for (const warning of r.warnings) console.log(warning)
     console.log('\n' + '─'.repeat(52))
-    console.log(`  ${r.dao.name} (${r.dao.ticker})   GASS ${r.gass}/100`)
+    console.log(`  ${r.dao.name} (${r.dao.ticker})   GASS ${r.gass == null ? 'unavailable' : r.gass + '/100'}`)
     console.log('─'.repeat(52))
-    console.log(`  affordability   ${String(r.components.affordability).padStart(3)}   (cost to buy quorum, absolute $)`)
-    console.log(`  concentration   ${String(r.components.concentration).padStart(3)}   (top-10 hold ${d.top10Share}% of supply)`)
-    console.log(`  ease-of-quorum  ${String(r.components.easeOfQuorum).padStart(3)}   (quorum = ${d.quorumShareOfSupply}% of supply)`)
+    console.log(`  affordability   ${String(r.components?.affordability).padStart(3)}   (cost to buy quorum, absolute $)`)
+    console.log(`  concentration   ${String(r.components?.concentration).padStart(3)}   (top-10 hold ${d.top10Share}% of supply)`)
+    console.log(`  ease-of-quorum  ${String(r.components?.easeOfQuorum).padStart(3)}   (quorum = ${d.quorumShareOfSupply}% of supply)`)
     console.log(`  ----`)
     console.log(`  treasury total        ${usd(d.treasuryTotalUSD)}`)
     console.log(`  quorum-cost estimate      ${usd(d.captureCostFloorUSD)}   (spot × quorum, no slippage)`)
