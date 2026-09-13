@@ -10,7 +10,7 @@ export default function NavBar() {
           QUORUM SENTINEL
         </Link>
         <nav className="nav-right">
-          <span className="nav-tag mono">Covalent GoldRush</span>
+          <Link to="/#scan" className="nav-btn">Explore DAOs</Link>
           <Link to="/dashboard" className="nav-btn">
             Replay incident
           </Link>

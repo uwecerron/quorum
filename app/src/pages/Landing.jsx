@@ -16,6 +16,16 @@ const attackSteps = [
 export default function Landing() {
   return (
     <main className="landing">
+      <section className="l-section explorer-top" id="scan">
+        <div className="eyebrow">Explore · 21 protocols</div>
+        <h2 className="section-title">Explore DAO governance</h2>
+        <p className="section-sub">
+          Pick a protocol to fetch live holder and treasury data from GoldRush by Covalent, plus governance parameters from Ethereum. Scores are calculated only for supported voting models.
+        </p>
+        <LiveScore />
+      </section>
+
+
       <section className="l-section hero">
         <div className="eyebrow">Governance risk ratings · powered by Covalent</div>
         <h1>
@@ -114,15 +124,6 @@ export default function Landing() {
             </div>
           ))}
         </div>
-      </section>
-
-      <section className="l-section" id="scan">
-        <div className="eyebrow">03 · Scan it live</div>
-        <h2 className="section-title">Score a real DAO, right now</h2>
-        <p className="section-sub">
-          Pick a protocol to fetch live holder and treasury data from GoldRush by Covalent, plus governance parameters from Ethereum. Scores are calculated only for supported voting models.
-        </p>
-        <LiveScore />
       </section>
 
       <section className="l-section" id="about">

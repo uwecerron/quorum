@@ -460,3 +460,8 @@ table.pricing td.for {
     width: auto;
   }
 }
+
+.explorer-top { padding-top:32px; padding-bottom:40px; scroll-margin-top:80px; }
+.explorer-top .eyebrow { margin-bottom:12px; }
+.explorer-top .section-sub { margin-bottom:16px; }
+.explorer-top .livescore { margin-top:16px; }
