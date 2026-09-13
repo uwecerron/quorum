@@ -4,10 +4,16 @@
 // The API key never reaches the browser.
 
 import { scoreDao } from '../src/lib/gass.js'
-import { DAO_LIST } from '../src/data/daos.js'
+import { DAO_LIST, DAOS } from '../src/data/daos.js'
 
 export default async function handler(req, res) {
   const daoId = (req.query.dao || 'comp').toString().toLowerCase()
+  const dao = DAOS[daoId]
+  if (!Object.hasOwn(DAOS, daoId)) return res.status(404).json({ ok: false, error: 'unknown_dao', message: 'Unknown DAO.' })
+  if (dao.status === 'research') return res.status(422).json({
+    ok: false, error: 'coverage_pending', message: `${dao.name}: ${dao.missing.join('; ')}`,
+    missing: dao.missing,
+  })
   const apiKey = process.env.GOLDRUSH_API_KEY
 
   if (!apiKey) {

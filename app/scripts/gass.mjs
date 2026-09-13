@@ -7,7 +7,7 @@
 // Prints a human-readable breakdown. Same scoring as the /api/gass endpoint.
 
 import { scoreDao } from '../src/lib/gass.js'
-import { DAOS } from '../src/data/daos.js'
+import { LIVE_DAO_LIST } from '../src/data/daos.js'
 
 const apiKey = process.env.GOLDRUSH_API_KEY
 if (!apiKey) {
@@ -17,7 +17,7 @@ if (!apiKey) {
 }
 
 const ids = process.argv.slice(2)
-const targets = ids.length ? ids : Object.keys(DAOS)
+const targets = ids.length ? ids : LIVE_DAO_LIST.map((dao) => dao.id)
 
 function usd(n) {
   if (n == null) return 'n/a'
@@ -42,8 +42,8 @@ for (const id of targets) {
     console.log(`  concentration   ${String(r.components.concentration).padStart(3)}   (top-10 hold ${d.top10Share}% of supply)`)
     console.log(`  ease-of-quorum  ${String(r.components.easeOfQuorum).padStart(3)}   (quorum = ${d.quorumShareOfSupply}% of supply)`)
     console.log(`  ----`)
-    console.log(`  treasury at risk        ${usd(d.valueAtRiskUSD)}`)
-    console.log(`  capture-cost floor      ${usd(d.captureCostFloorUSD)}   (spot × quorum, no slippage)`)
+    console.log(`  treasury total        ${usd(d.treasuryTotalUSD)}`)
+    console.log(`  quorum-cost estimate      ${usd(d.captureCostFloorUSD)}   (spot × quorum, no slippage)`)
     console.log(`  spot price              ${price(d.spotUSD)}`)
     console.log(`  holders sampled         ${d.holdersSampled}`)
     console.log(`  source: ${r.source} · ${r.version}`)

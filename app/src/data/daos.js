@@ -39,4 +39,208 @@ export const DAOS = {
   },
 }
 
+// Coverage entries must not silently inherit a generic quorum assumption.
+const research = [
+  {
+    "id": "forth",
+    "name": "Ampleforth",
+    "ticker": "FORTH",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  },
+  {
+    "id": "lido",
+    "name": "Lido",
+    "ticker": "LDO",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  },
+  {
+    "id": "aave",
+    "name": "Aave",
+    "ticker": "AAVE",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  },
+  {
+    "id": "nouns",
+    "name": "Nouns",
+    "ticker": "NOUN",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  },
+  {
+    "id": "frax",
+    "name": "Frax",
+    "ticker": "FXS",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  },
+  {
+    "id": "gitcoin",
+    "name": "Gitcoin",
+    "ticker": "GTC",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  },
+  {
+    "id": "balancer",
+    "name": "Balancer",
+    "ticker": "BAL",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  },
+  {
+    "id": "radworks",
+    "name": "Radworks",
+    "ticker": "RAD",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  },
+  {
+    "id": "euler",
+    "name": "Euler",
+    "ticker": "EUL",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  },
+  {
+    "id": "maker",
+    "name": "MakerDAO / Sky",
+    "ticker": "MKR / SKY",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  },
+  {
+    "id": "instadapp",
+    "name": "Instadapp",
+    "ticker": "INST",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  },
+  {
+    "id": "hop",
+    "name": "Hop",
+    "ticker": "HOP",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  },
+  {
+    "id": "truefi",
+    "name": "TrueFi",
+    "ticker": "TRU",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  },
+  {
+    "id": "cryptex",
+    "name": "Cryptex",
+    "ticker": "CTX",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  },
+  {
+    "id": "angle",
+    "name": "Angle",
+    "ticker": "ANGLE",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  },
+  {
+    "id": "silo",
+    "name": "Silo",
+    "ticker": "SILO",
+    "chain": "eth-mainnet",
+    "status": "research",
+    "missing": [
+      "Verified treasury and governor addresses",
+      "Current quorum and voting rules",
+      "Execution permissions and safeguards"
+    ]
+  }
+]
+for (const dao of research) DAOS[dao.id] = dao
+Object.assign(DAOS.forth, {
+  token: '0x77fba179c79de5b7653f68b5039af940ada60ce0',
+  treasury: '0x223592a191ECfC7FDC38a9256c3BD96E771539A9',
+  governor: '0x8a994C6F55Be1fD2B4d0dc3B8f8F7D4E3a2dA8F1',
+  addressSource: 'https://github.com/fragmentsorg/Forth',
+  missing: ['Current quorum and voting rules', 'Current treasury balances', 'Execution permissions and safeguards'],
+})
 export const DAO_LIST = Object.values(DAOS)
+export const LIVE_DAO_LIST = DAO_LIST.filter((dao) => dao.status !== 'research')

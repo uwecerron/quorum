@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import Gauge from './Gauge'
-import { DAO_LIST } from '../data/daos'
+import { LIVE_DAO_LIST } from '../data/daos'
 import './livescore.css'
 
 function usd(n) {
@@ -56,18 +56,17 @@ export default function LiveScore() {
     <section className="livescore">
       <div className="ls-head">
         <div>
-          <div className="ls-eyebrow mono">Live · Covalent GoldRush</div>
+          <div className="ls-eyebrow mono">Live · GoldRush by Covalent</div>
           <h2>Score a real DAO from on-chain data</h2>
           <p>
-            This reads live token-holder distribution and treasury balances from Covalent GoldRush and computes a
-            GASS on the spot. Deep, liquid tokens are hard to buy control of, so they score low. Thinner, more
-            concentrated tokens score higher.
+            This reads live token-holder distribution and treasury balances from GoldRush by Covalent and computes a
+            GASS on the spot. Scores describe token concentration and a configured quorum-cost estimate. They do not establish whether governance can move treasury funds.
           </p>
         </div>
       </div>
 
       <div className="ls-picker">
-        {DAO_LIST.map((dao) => (
+        {LIVE_DAO_LIST.map((dao) => (
           <button
             key={dao.id}
             className={`ls-chip ${daoId === dao.id ? 'active' : ''}`}
@@ -96,9 +95,9 @@ export default function LiveScore() {
                 : 'Live scoring unavailable'}
           </div>
           <p>{state.error}</p>
-          <p className="ls-error-sub">
+          {state.code === 'no_key' && <p className="ls-error-sub">
             Set <span className="mono">GOLDRUSH_API_KEY</span> in your Vercel project settings to enable live scoring.
-          </p>
+          </p>}
         </div>
       )}
 
@@ -109,13 +108,13 @@ export default function LiveScore() {
           </div>
           <div className="ls-breakdown">
             <div className="ls-components">
-              <Component label="Affordability" value={d.components.affordability} hint="cost to buy quorum control (absolute $)" />
+              <Component label="Affordability" value={d.components.affordability} hint="spot price × configured quorum" />
               <Component label="Concentration" value={d.components.concentration} hint={`top 10 hold ${d.detail.top10Share}% of supply`} />
               <Component label="Ease of quorum" value={d.components.easeOfQuorum} hint={`quorum is ${d.detail.quorumShareOfSupply}% of supply`} />
             </div>
             <div className="ls-metrics">
-              <Metric k="Treasury at risk" v={usd(d.detail.valueAtRiskUSD)} />
-              <Metric k="Capture-cost floor" v={usd(d.detail.captureCostFloorUSD)} />
+              <Metric k="Treasury total" v={usd(d.detail.treasuryTotalUSD)} />
+              <Metric k="Quorum-cost estimate" v={usd(d.detail.captureCostFloorUSD)} />
               <Metric k="Spot price" v={price(d.detail.spotUSD)} />
               <Metric k="Holders sampled" v={d.detail.holdersSampled} />
             </div>

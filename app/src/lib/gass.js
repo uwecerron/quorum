@@ -84,17 +84,17 @@ export async function fetchConcentration(dao, apiKey) {
   }
 }
 
-// Factor: treasury value at risk.
+// Treasury balance total; governance reachability is not established.
 // Fungible, non-spam holdings only, so scam airdrops and NFTs do not inflate
 // the treasury figure and legitimate priced tokens are the only ones counted.
-export async function fetchValueAtRisk(dao, apiKey) {
+export async function fetchTreasuryTotal(dao, apiKey) {
   const data = await goldrush(
     `/${dao.chain}/address/${dao.treasury}/balances_v2/?quote-currency=USD&nft=false&no-nft-fetch=true`,
     apiKey,
   )
   const items = (data && data.items) || []
   const fungible = items.filter((it) => !it.is_spam && it.type !== 'nft' && (it.quote || 0) > 0)
-  const valueAtRiskUSD = fungible.reduce((s, it) => s + (it.quote || 0), 0)
+  const treasuryTotalUSD = fungible.reduce((s, it) => s + (it.quote || 0), 0)
 
   // Take the governance token's spot price if the treasury holds it.
   const gov = items.find(
@@ -102,7 +102,7 @@ export async function fetchValueAtRisk(dao, apiKey) {
   )
   const govSpotUSD = gov && gov.quote_rate ? gov.quote_rate : null
 
-  return { valueAtRiskUSD, govSpotUSD }
+  return { treasuryTotalUSD, govSpotUSD }
 }
 
 // If the treasury does not hold its own token, fetch spot via the pricing endpoint.
@@ -157,7 +157,7 @@ export function combineGass({ conc, var: varr, spotUSD, quorumTokens }) {
       easeOfQuorum: +(easeOfQuorum * 100).toFixed(0),
     },
     detail: {
-      valueAtRiskUSD: Math.round(varr.valueAtRiskUSD),
+      treasuryTotalUSD: Math.round(varr.treasuryTotalUSD),
       captureCostFloorUSD: captureCostFloorUSD != null ? Math.round(captureCostFloorUSD) : null,
       top10Share: +(conc.top10Share * 100).toFixed(1),
       hhiSample: +conc.hhiSample.toFixed(4),
@@ -172,12 +172,13 @@ export function combineGass({ conc, var: varr, spotUSD, quorumTokens }) {
 // Score one DAO.
 export async function scoreDao(daoId, apiKey) {
   const dao = DAOS[daoId]
-  if (!dao) throw new Error(`unknown dao: ${daoId}`)
+  if (!Object.hasOwn(DAOS, daoId)) throw new Error(`unknown dao: ${daoId}`)
+  if (dao.status === 'research') throw new Error(`coverage pending for ${dao.name}: ${dao.missing.join('; ')}`)
   if (!apiKey) throw new Error('missing GOLDRUSH_API_KEY')
 
   const [conc, varr] = await Promise.all([
     fetchConcentration(dao, apiKey),
-    fetchValueAtRisk(dao, apiKey),
+    fetchTreasuryTotal(dao, apiKey),
   ])
 
   let spotUSD = varr.govSpotUSD
@@ -199,11 +200,12 @@ export async function scoreDao(daoId, apiKey) {
   return {
     dao: { id: dao.id, name: dao.name, ticker: dao.ticker, chain: dao.chain },
     ...scored,
-    source: 'Covalent GoldRush',
+    source: 'GoldRush by Covalent',
     version: 'GASS v0',
     computedNote:
       'GASS v0 from live on-chain data: affordability, concentration and ease of quorum. ' +
-      'Capture cost is a spot-price floor and ignores DEX slippage, so real acquisition ' +
-      'cost is higher. Timelock, guardian and turnout factors are planned for v1.',
+      'Quorum-cost estimate is spot price times configured quorum; it excludes slippage and does not establish control. ' +
+      'Treasury total includes native tokens and is not verified reachable value. ' +
+      'Quorum parameters are configured, not refreshed onchain. Timelock, guardian and turnout factors are not included.',
   }
 }

@@ -32,9 +32,9 @@ GOLDRUSH_API_KEY=cqt_your_key node scripts/gass.mjs comp uni ens
 
 ### What GASS v0 computes (honestly)
 
-From live GoldRush data: **concentration** (top-holder share + HHI via `token_holders_v2`), **value at risk** (treasury balances via `balances_v2`), and a **capture-cost floor** (spot price × quorum tokens — ignores DEX slippage, so it's a floor, clearly labeled). Timelock depth, guardian coverage, and turnout are v1 (governance-contract reads) and are not in v0. Deep-float DAOs like Uniswap should score **low** — that's the model being honest, and it's the whole "the capturable ones are the small ones" thesis, shown with real numbers.
+From live GoldRush data: **concentration** (top-holder share + HHI via `token_holders_v2`), **treasury total** (treasury balances via `balances_v2`, including native assets), and a **capture-cost floor** (spot price × quorum tokens — ignores DEX slippage, so it's a floor, clearly labeled). Timelock depth, guardian coverage, and turnout are v1 (governance-contract reads) and are not in v0. Deep-float DAOs like Uniswap should score **low** — that's the model being honest, and it's the whole "the capturable ones are the small ones" thesis, shown with real numbers.
 
-Add a real capture-cost (not just a floor) by wiring a DEX liquidity source (0x / 1inch / Uniswap subgraph) into `api/_gass.js`.
+Add a real capture-cost (not just a floor) by wiring a DEX liquidity source (0x / 1inch / Uniswap subgraph) into `src/lib/gass.js`.
 
 ## Run locally
 
@@ -79,3 +79,15 @@ src/
   pages/        Landing.jsx (pitch) and Dashboard.jsx (console)
   styles/       Global design tokens (light + dark, prefers-color-scheme aware)
 ```
+
+## DAO coverage catalogue
+
+The dashboard includes all 18 DAOs from the supplied August 25, 2026 Ethereum scan, plus Ampleforth/FORTH (19 total). `src/data/coverage.json` preserves historical treasury totals, liquid classifications, holdings, and the 2%-of-supply screening estimate. These are source-reported snapshots, not refreshed balances, verified quorum costs, or vulnerability ratings. No source instructions or blanket safety verdicts are executed or adopted.
+
+Compound, Uniswap and ENS retain their existing live integrations with configured quorum parameters. The remaining entries are research coverage, with missing verification displayed. FORTH addresses are sourced from https://github.com/fragmentsorg/Forth; its current quorum and execution permissions remain unverified. Research IDs return HTTP 422 with missing inputs, unknown IDs return 404, and CLI defaults include only live integrations.
+
+Live treasury reporting uses `treasuryTotalUSD`, replacing the misleading `valueAtRiskUSD` field. It includes native assets; neither liquid value nor execution reachability is inferred from total balances. The historical liquid breakdown is kept separate.
+
+Onchain data powered by GoldRush by Covalent: the scorer calls `api.covalenthq.com/v1` for holders, balances and pricing. Authentication uses server-side `GOLDRUSH_API_KEY`. This attribution describes the integration, not a sponsorship.
+
+Run `node --test` for coverage and API regression checks, `npm run lint`, and `npm run build`. Live verification additionally requires a configured GoldRush key.

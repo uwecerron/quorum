@@ -9,7 +9,7 @@
 
 import { writeFile } from 'node:fs/promises'
 import { scoreDao } from '../src/lib/gass.js'
-import { DAOS } from '../src/data/daos.js'
+import { LIVE_DAO_LIST } from '../src/data/daos.js'
 
 const apiKey = process.env.GOLDRUSH_API_KEY
 if (!apiKey) {
@@ -18,7 +18,7 @@ if (!apiKey) {
 }
 
 const rows = []
-for (const id of Object.keys(DAOS)) {
+for (const id of LIVE_DAO_LIST.map((dao) => dao.id)) {
   try {
     const r = await scoreDao(id, apiKey)
     rows.push({
@@ -26,7 +26,7 @@ for (const id of Object.keys(DAOS)) {
       name: r.dao.name,
       ticker: r.dao.ticker,
       gass: r.gass,
-      valueAtRiskUSD: r.detail.valueAtRiskUSD,
+      treasuryTotalUSD: r.detail.treasuryTotalUSD,
       captureCostFloorUSD: r.detail.captureCostFloorUSD,
       top10Share: r.detail.top10Share,
     })
@@ -37,6 +37,6 @@ for (const id of Object.keys(DAOS)) {
 }
 
 rows.sort((a, b) => b.gass - a.gass)
-const out = { generatedNote: 'GASS v0 from Covalent GoldRush', rows }
+const out = { generatedNote: 'GASS v0 from GoldRush by Covalent', rows }
 await writeFile(new URL('../src/data/leaderboard.json', import.meta.url), JSON.stringify(out, null, 2))
 console.log(`\nWrote src/data/leaderboard.json (${rows.length} protocols).`)
