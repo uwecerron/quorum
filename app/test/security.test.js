@@ -62,7 +62,9 @@ test('GoldRush calls have a timeout, refuse redirects and reject missing balance
     assert.equal(options.redirect,'error')
     return {ok:true,json:async()=>({data:{}})}
   })
-  await assert.rejects(fetchTreasuryTotal(DAOS.comp,'test'),/Missing GoldRush items/)
+  const result=await fetchTreasuryTotal(DAOS.comp,'test')
+  assert.equal(result.treasuryTotalUSD,null)
+  assert.equal(result.accounts[0].status,'unavailable')
 })
 
 test('malformed holder units are rejected before computing concentration', async(t)=>{

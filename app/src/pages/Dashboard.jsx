@@ -4,7 +4,6 @@ import StatusPill from '../components/StatusPill'
 import AlertFeed from '../components/AlertFeed'
 import ReplayTimeline from '../components/ReplayTimeline'
 import LiveScore from '../components/LiveScore'
-import DaoCoverage from '../components/DaoCoverage'
 import { protocols, alertFeedSeed, formatUsd } from '../data/mock'
 import './dashboard.css'
 
@@ -43,7 +42,6 @@ export default function Dashboard() {
       </div>
 
       <div className="container">
-        <DaoCoverage />
         <LiveScore />
       </div>
 

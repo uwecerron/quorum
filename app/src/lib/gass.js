@@ -2,14 +2,11 @@
 // Lives in src/lib (not in api/) so Vercel never treats it as an endpoint.
 // Imported by api/gass.js (serverless function) and the scripts/ CLIs.
 //
-// GASS v0 computes three factors from live GoldRush data:
-//   affordability : absolute dollars to buy quorum-passing voting power
-//   concentration : share of supply held by the top external holders
-//   easeOfQuorum  : how small the quorum threshold is vs. circulating supply
-// Timelock depth, guardian coverage and turnout are v1 (they need
-// governance-contract reads) and are deliberately out of v0 scope.
+// GoldRush supplies holders, balances and prices. Ethereum RPC supplies live
+// governance parameters. Only comparable voting models receive a score.
 
 import { DAOS } from '../data/daos.js'
+import { readGovernance } from './governance.js'
 
 const BASE = 'https://api.covalenthq.com/v1'
 
@@ -49,7 +46,7 @@ export async function fetchConcentration(dao, apiKey) {
   if (!Array.isArray(items)) throw new Error('Missing GoldRush items')
   if (!items.length) throw new Error('no token holders returned')
 
-  const decimals = items[0].contract_decimals
+  const decimals = dao.tokenKind === 'erc721' ? 0 : items[0].contract_decimals
   const totalSupply = toUnits(items[0].total_supply, decimals)
   if (!(totalSupply > 0)) throw new Error('Invalid total supply')
 
@@ -58,6 +55,7 @@ export async function fetchConcentration(dao, apiKey) {
   // parked in the token contract or a burn address, is not a capture vector.
   const exclude = new Set(
     [
+      ...(dao.treasuries || []).map((wallet) => wallet.address),
       dao.treasury,
       dao.governor,
       dao.token,
@@ -87,6 +85,8 @@ export async function fetchConcentration(dao, apiKey) {
     top10Share,
     hhiSample,
     topHolder: external[0] ? external[0].address : items[0].address,
+    topHolders: external.slice(0, 10).map((holder) => ({ address: holder.address, tokens: holder.bal, share: holder.bal / totalSupply })),
+    updatedAt: data.updated_at || null,
   }
 }
 
@@ -94,23 +94,32 @@ export async function fetchConcentration(dao, apiKey) {
 // Fungible, non-spam holdings only, so scam airdrops and NFTs do not inflate
 // the treasury figure and legitimate priced tokens are the only ones counted.
 export async function fetchTreasuryTotal(dao, apiKey) {
-  const data = await goldrush(
-    `/${dao.chain}/address/${dao.treasury}/balances_v2/?quote-currency=USD&nft=false&no-nft-fetch=true`,
-    apiKey,
-  )
-  const items = data?.items
-  if (!Array.isArray(items)) throw new Error('Missing GoldRush items')
-  if (items.some((it) => !it || (it.quote != null && (typeof it.quote !== 'number' || !Number.isFinite(it.quote) || it.quote < 0)))) throw new Error('Invalid treasury quote')
-  const fungible = items.filter((it) => !it.is_spam && it.type !== 'nft' && (it.quote || 0) > 0)
-  const treasuryTotalUSD = fungible.reduce((s, it) => s + (it.quote || 0), 0)
-
-  // Take the governance token's spot price if the treasury holds it.
-  const gov = items.find(
-    (it) => (it.contract_address || '').toLowerCase() === dao.token.toLowerCase(),
-  )
-  const govSpotUSD = gov && gov.quote_rate ? gov.quote_rate : null
-
-  return { treasuryTotalUSD, govSpotUSD }
+  const wallets = dao.treasuries || (dao.treasury ? [{ address: dao.treasury, label: 'Treasury' }] : [])
+  if (!wallets.length) return { treasuryTotalUSD: null, govSpotUSD: null, accounts: [], status: 'unconfigured' }
+  const unique = [...new Map(wallets.map((w) => [w.address.toLowerCase(), w])).values()]
+  const results = await Promise.allSettled(unique.map(async (wallet) => {
+    const data = await goldrush(
+      `/${dao.chain}/address/${wallet.address}/balances_v2/?quote-currency=USD&nft=false&no-nft-fetch=true`, apiKey,
+    )
+    const items = data?.items
+    if (!Array.isArray(items)) throw new Error('Missing GoldRush items')
+    if (items.some((it) => !it || (it.quote != null && (typeof it.quote !== 'number' || !Number.isFinite(it.quote) || it.quote < 0)))) throw new Error('Invalid treasury quote')
+    const fungible = items.filter((it) => !it.is_spam && it.type !== 'nft' && (it.quote || 0) > 0)
+    const totalUSD = fungible.reduce((sum, it) => sum + it.quote, 0)
+    if (!Number.isFinite(totalUSD)) throw new Error('Invalid treasury total')
+    const gov = items.find((it) => (it.contract_address || '').toLowerCase() === dao.token.toLowerCase())
+    return { ...wallet, status: 'live', totalUSD, updatedAt: data.updated_at || null,
+      govSpotUSD: Number.isFinite(gov?.quote_rate) && gov.quote_rate > 0 ? gov.quote_rate : null,
+      holdings: fungible.map((it) => ({ address: it.contract_address, symbol: it.contract_ticker_symbol || 'Unknown', usd: it.quote,
+        nativeGovernanceToken: (it.contract_address || '').toLowerCase() === dao.token.toLowerCase() })),
+    }
+  }))
+  const accounts = results.map((result, i) => result.status === 'fulfilled' ? result.value : { ...unique[i], status: 'unavailable', totalUSD: null })
+  const complete = accounts.every((account) => account.status === 'live')
+  return { accounts, status: complete ? 'live' : 'partial',
+    treasuryTotalUSD: complete ? accounts.reduce((sum, account) => sum + account.totalUSD, 0) : null,
+    govSpotUSD: accounts.find((account) => account.govSpotUSD > 0)?.govSpotUSD ?? null,
+  }
 }
 
 // If the treasury does not hold its own token, fetch spot via the pricing endpoint.
@@ -135,7 +144,7 @@ function clamp01(x) {
 // Combine the three factors into a 0 to 100 GASS.
 export function combineGass({ conc, var: varr, spotUSD, quorumTokens }) {
   const positive = [conc.totalSupply, spotUSD, quorumTokens]
-  const nonnegative = [conc.top10Share, conc.hhiSample, varr.treasuryTotalUSD]
+  const nonnegative = [conc.top10Share, conc.hhiSample, ...(varr.treasuryTotalUSD == null ? [] : [varr.treasuryTotalUSD])]
   if (positive.some((n) => !Number.isFinite(n) || n <= 0) ||
       nonnegative.some((n) => !Number.isFinite(n) || n < 0) ||
       conc.top10Share > 1 + 1e-9 || quorumTokens > conc.totalSupply ||
@@ -172,7 +181,7 @@ export function combineGass({ conc, var: varr, spotUSD, quorumTokens }) {
       easeOfQuorum: +(easeOfQuorum * 100).toFixed(0),
     },
     detail: {
-      treasuryTotalUSD: Math.round(varr.treasuryTotalUSD),
+      treasuryTotalUSD: varr.treasuryTotalUSD == null ? null : Math.round(varr.treasuryTotalUSD),
       captureCostFloorUSD: captureCostFloorUSD != null ? Math.round(captureCostFloorUSD) : null,
       top10Share: +(conc.top10Share * 100).toFixed(1),
       hhiSample: +conc.hhiSample.toFixed(4),
@@ -184,43 +193,60 @@ export function combineGass({ conc, var: varr, spotUSD, quorumTokens }) {
   }
 }
 
-// Score one DAO.
-export async function scoreDao(daoId, apiKey) {
-  const dao = DAOS[daoId]
+// Every registry entry has live token and/or treasury reads. Quorum-dependent
+// scores exist only where the voting unit and a successful live adapter support them.
+export async function scoreDao(daoId, apiKey, dependencies = {}) {
   if (!Object.hasOwn(DAOS, daoId)) throw new Error(`unknown dao: ${daoId}`)
-  if (dao.status === 'research') throw new Error(`coverage pending for ${dao.name}: ${dao.missing.join('; ')}`)
   if (!apiKey) throw new Error('missing GOLDRUSH_API_KEY')
-
-  const [conc, varr] = await Promise.all([
-    fetchConcentration(dao, apiKey),
-    fetchTreasuryTotal(dao, apiKey),
+  const dao = DAOS[daoId]
+  const concentrationReader = dependencies.concentration || fetchConcentration
+  const treasuryReader = dependencies.treasury || fetchTreasuryTotal
+  const governanceReader = dependencies.governance || readGovernance
+  const priceReader = dependencies.price || fetchSpotPrice
+  const [concentrationResult, treasuryResult, governanceResult] = await Promise.allSettled([
+    concentrationReader(dao, apiKey), treasuryReader(dao, apiKey), governanceReader(dao),
   ])
-
-  let spotUSD = varr.govSpotUSD
-  if (spotUSD == null) spotUSD = await fetchSpotPrice(dao, apiKey)
-  if (!Number.isFinite(spotUSD) || !(spotUSD > 0)) {
-    // No usable price means we cannot compute an accurate capture cost.
-    // Fail loudly rather than emit a misleadingly low (safe-looking) score.
-    throw new Error(`no spot price available for ${dao.ticker}; score not computed`)
+  const conc = concentrationResult.status === 'fulfilled' ? concentrationResult.value : null
+  const treasury = treasuryResult.status === 'fulfilled' ? treasuryResult.value : { treasuryTotalUSD: null, govSpotUSD: null, accounts: [], status: 'unavailable' }
+  const governance = governanceResult.status === 'fulfilled' ? governanceResult.value : { quorumTokens: null, status: 'unavailable', model: dao.governanceModel }
+  if (!conc && !treasury.accounts.some((account) => account.status === 'live')) throw new Error('Live token and treasury data unavailable')
+  let spotUSD = null
+  if (dao.tokenKind !== 'erc721') {
+    spotUSD = treasury.govSpotUSD || await priceReader(dao, apiKey)
+    if (!Number.isFinite(spotUSD) || spotUSD <= 0) spotUSD = null
   }
-
-  // Fraction-based governors (e.g. ENS) quote quorum as a share of supply, so
-  // resolve the token count against live supply instead of a stale constant.
-  const quorumTokens = dao.quorumFraction
-    ? Math.round(dao.quorumFraction * conc.totalSupply)
-    : dao.quorumTokens
-
-  const scored = combineGass({ conc, var: varr, spotUSD, quorumTokens })
-
+  const comparable = ['token-vote', 'aragon'].includes(dao.governanceModel)
+  let scoreUnavailableReason = null
+  if (!comparable) scoreUnavailableReason = dao.note || 'This governance model is not comparable to a fungible token quorum-cost score.'
+  else if (!conc) scoreUnavailableReason = 'Token-holder data is unavailable.'
+  else if (governance.quorumTokens == null) scoreUnavailableReason = 'Live governance quorum could not be read. Holder and treasury data remain available.'
+  else if (spotUSD == null) scoreUnavailableReason = 'No usable token price returned by GoldRush.'
+  let scored = { gass: null, components: null }
+  if (!scoreUnavailableReason) {
+    try { scored = combineGass({ conc, var: treasury, spotUSD, quorumTokens: governance.quorumTokens }) }
+    catch { scoreUnavailableReason = 'Live inputs did not pass score validation.' }
+  }
+  const warnings = [
+    !conc && 'Holder data unavailable.',
+    treasury.status === 'unconfigured' && 'No verified treasury address configured; no balance is assumed.',
+    treasury.status === 'partial' && 'Some treasury accounts could not be refreshed; aggregate total is unavailable.',
+    governance.status === 'unavailable' && 'Governance contract read unavailable.',
+  ].filter(Boolean)
   return {
-    dao: { id: dao.id, name: dao.name, ticker: dao.ticker, chain: dao.chain },
-    ...scored,
-    source: 'GoldRush by Covalent',
-    version: 'GASS v0',
-    computedNote:
-      'GASS v0 from live on-chain data: affordability, concentration and ease of quorum. ' +
-      'Quorum-cost estimate is spot price times configured quorum; it excludes slippage and does not establish control. ' +
-      'Treasury total includes native tokens and is not verified reachable value. ' +
-      'Quorum parameters are configured, not refreshed onchain. Timelock, guardian and turnout factors are not included.',
+    dao: { id: dao.id, name: dao.name, ticker: dao.ticker, chain: dao.chain, token: dao.token, tokenKind: dao.tokenKind, source: dao.source },
+    gass: scored.gass, components: scored.components,
+    detail: {
+      ...(scored.detail || {}), treasuryTotalUSD: treasury.treasuryTotalUSD,
+      captureCostFloorUSD: scored.detail?.captureCostFloorUSD ?? null,
+      top10Share: conc ? +(conc.top10Share * 100).toFixed(1) : null,
+      holdersSampled: conc?.holdersSampled ?? null, totalSupply: conc?.totalSupply ?? null,
+      spotUSD, quorumTokens: governance.quorumTokens, topHolders: conc?.topHolders || [],
+      holdersUpdatedAt: conc?.updatedAt ?? null,
+    },
+    governance, treasury, scoreUnavailableReason, warnings,
+    fetchedAt: new Date().toISOString(), source: 'GoldRush by Covalent', version: 'GASS v1 live coverage',
+    computedNote: 'Holder and treasury data: GoldRush by Covalent. Governance parameters: Ethereum RPC. ' +
+      'Spot × live quorum excludes slippage, turnout and opposition; it does not establish control. ' +
+      'Treasury totals cover the listed accounts only and include native assets. ' + (dao.note || ''),
   }
 }

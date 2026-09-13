@@ -26,6 +26,7 @@ for (const id of LIVE_DAO_LIST.map((dao) => dao.id)) {
       name: r.dao.name,
       ticker: r.dao.ticker,
       gass: r.gass,
+      scoreUnavailableReason: r.scoreUnavailableReason,
       treasuryTotalUSD: r.detail.treasuryTotalUSD,
       captureCostFloorUSD: r.detail.captureCostFloorUSD,
       top10Share: r.detail.top10Share,
@@ -36,7 +37,7 @@ for (const id of LIVE_DAO_LIST.map((dao) => dao.id)) {
   }
 }
 
-rows.sort((a, b) => b.gass - a.gass)
-const out = { generatedNote: 'GASS v0 from GoldRush by Covalent', rows }
+rows.sort((a, b) => (b.gass ?? -1) - (a.gass ?? -1))
+const out = { generatedNote: 'GASS v1: GoldRush by Covalent and Ethereum RPC', rows }
 await writeFile(new URL('../src/data/leaderboard.json', import.meta.url), JSON.stringify(out, null, 2))
 console.log(`\nWrote src/data/leaderboard.json (${rows.length} protocols).`)

@@ -120,7 +120,7 @@ export default function Landing() {
         <div className="eyebrow">03 · Scan it live</div>
         <h2 className="section-title">Score a real DAO, right now</h2>
         <p className="section-sub">
-          Pick a DAO. Every number below is computed live from Covalent GoldRush, with no mock data.
+          Pick a protocol to fetch live holder and treasury data from GoldRush by Covalent, plus governance parameters from Ethereum. Scores are calculated only for supported voting models.
         </p>
         <LiveScore />
       </section>
