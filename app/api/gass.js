@@ -6,8 +6,24 @@
 import { scoreDao } from '../src/lib/gass.js'
 import { DAO_LIST, DAOS } from '../src/data/daos.js'
 
-export default async function handler(req, res) {
-  const daoId = (req.query.dao || 'comp').toString().toLowerCase()
+// Bounded by the live registry, scoped to a warm serverless instance.
+// Edge/WAF rate limits are still needed across instances.
+export function createHandler(score = scoreDao, now = Date.now) {
+ const cache = new Map()
+ const pending = new Map()
+ return async function handler(req, res) {
+  res.setHeader('Cache-Control', 'no-store')
+  res.setHeader('X-Content-Type-Options', 'nosniff')
+  if (req.method !== 'GET') {
+    res.setHeader('Allow', 'GET')
+    return res.status(405).json({ ok: false, error: 'method_not_allowed' })
+  }
+  const rawId = req.query?.dao ?? 'comp'
+  if (typeof rawId !== 'string' || !/^[a-z]{1,24}$/i.test(rawId) ||
+      Object.keys(req.query || {}).some((key) => key !== 'dao')) {
+    return res.status(400).json({ ok: false, error: 'invalid_query' })
+  }
+  const daoId = rawId.toLowerCase()
   const dao = DAOS[daoId]
   if (!Object.hasOwn(DAOS, daoId)) return res.status(404).json({ ok: false, error: 'unknown_dao', message: 'Unknown DAO.' })
   if (dao.status === 'research') return res.status(422).json({
@@ -28,13 +44,26 @@ export default async function handler(req, res) {
   }
 
   try {
-    const result = await scoreDao(daoId, apiKey)
+    let entry = cache.get(daoId)
+    if (!entry || now() - entry.at >= 300_000) {
+      let work = pending.get(daoId)
+      if (!work) {
+        work = Promise.resolve().then(() => score(daoId, apiKey)).then((result) => {
+          const fresh = { result, at: now() }
+          cache.set(daoId, fresh)
+          return fresh
+        }).finally(() => pending.delete(daoId))
+        pending.set(daoId, work)
+      }
+      entry = await work
+    }
+    const result = entry.result
     // Cache only successful scores at the edge; never cache errors.
     res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600')
     return res.status(200).json({ ok: true, ...result })
-  } catch (err) {
+  } catch {
     // Log detail server-side; return a generic message to the client.
-    console.error('gass scoring failed for', daoId, err && err.message)
+    console.error('gass scoring failed for', daoId)
     res.setHeader('Cache-Control', 'no-store')
     return res.status(502).json({
       ok: false,
@@ -44,3 +73,6 @@ export default async function handler(req, res) {
     })
   }
 }
+
+}
+export default createHandler()

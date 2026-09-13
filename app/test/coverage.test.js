@@ -24,8 +24,8 @@ test('research coverage cannot produce a score or make network calls', async () 
 
 test('API distinguishes pending coverage and unknown IDs before key lookup', async () => {
   for (const [id, status, error] of [['forth',422,'coverage_pending'], ['gitcoin',422,'coverage_pending'], ['missing',404,'unknown_dao'], ['constructor',404,'unknown_dao']]) {
-    const res = { status(n) { this.code = n; return this }, json(body) { this.body = body; return this } }
-    await handler({ query: { dao: id } }, res)
+    const res = { setHeader() {}, status(n) { this.code = n; return this }, json(body) { this.body = body; return this } }
+    await handler({ method: 'GET', query: { dao: id } }, res)
     assert.equal(res.code, status)
     assert.equal(res.body.error, error)
   }
