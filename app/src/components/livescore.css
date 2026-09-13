@@ -209,3 +209,8 @@
 .ls-table-scroll table { width:100%; border-collapse:collapse; font-size:13px; }
 .ls-table-scroll th, .ls-table-scroll td { text-align:left; padding:8px; border-bottom:1px solid var(--border, #ccc); }
 .ls-breakdown { min-width:0; }
+.ls-filters { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+.ls-filters .ls-chip { font-size:14px; }
+.ls-picker .ls-chip { font-size:15px; }
+.ls-search input { flex:1; width:100%; min-width:0; }
+.ls-search { align-items:stretch; flex-direction:column; }

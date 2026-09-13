@@ -21,6 +21,11 @@ export default function LiveScore() {
   const [state, setState] = useState({ status: 'idle' })
   const reqId = useRef(0)
   const [query, setQuery] = useState('')
+  const [filter, setFilter] = useState('all')
+  const filtered = LIVE_DAO_LIST.filter((dao) => {
+    const matches = `${dao.name} ${dao.ticker} ${dao.id} ${dao.token} ${dao.governanceModel}`.toLowerCase().includes(query.trim().toLowerCase())
+    return matches && (filter === 'all' || (filter === 'new' ? !['comp','uni','ens'].includes(dao.id) : filter === 'quorum' ? ['token-vote','aragon'].includes(dao.governanceModel) : !['token-vote','aragon'].includes(dao.governanceModel)))
+  })
 
   async function run(id) {
     const myId = ++reqId.current
@@ -58,7 +63,7 @@ export default function LiveScore() {
       <div className="ls-head">
         <div>
           <div className="ls-eyebrow mono">Live · GoldRush by Covalent</div>
-          <h2>Score a real DAO from on-chain data</h2>
+          <h2>Choose a protocol</h2>
           <p>
             This reads live token-holder distribution and treasury balances from GoldRush by Covalent and computes a
             GASS where live quorum and token pricing support it. Governance, NFT and multisig models show their own metrics. Treasury balances cover the named accounts only.
@@ -69,9 +74,10 @@ export default function LiveScore() {
       <label className="ls-search">Find a protocol
         <input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Ampleforth, Gitcoin, Radworks…" />
       </label>
-      <p className="ls-note">{LIVE_DAO_LIST.length} protocols connected to live data</p>
+      <div className="ls-filters" aria-label="Browse protocols">{[['all','All protocols'],['new','Newly added'],['quorum','Token quorum'],['other','Other voting models']].map(([value,label]) => <button key={value} className={`ls-chip ${filter === value ? 'active' : ''}`} aria-pressed={filter === value} onClick={() => setFilter(value)}>{label}</button>)}</div>
+      <p className="ls-note" aria-live="polite">{filtered.length} of {LIVE_DAO_LIST.length} protocols</p>
       <div className="ls-picker">
-        {LIVE_DAO_LIST.filter((dao) => `${dao.name} ${dao.ticker}`.toLowerCase().includes(query.toLowerCase())).map((dao) => (
+        {filtered.map((dao) => (
           <button
             key={dao.id}
             className={`ls-chip ${daoId === dao.id ? 'active' : ''}`}
@@ -83,7 +89,9 @@ export default function LiveScore() {
         ))}
       </div>
 
-      {state.status === 'idle' && (
+      {!filtered.length && <p className="ls-hint">No protocols match. <button className="ls-chip" onClick={() => {setQuery('');setFilter('all')}}>Clear filters</button></p>}
+
+      {state.status === 'idle'  && (
         <div className="ls-hint mono">Pick a protocol to fetch live holders, treasury balances and governance metrics.</div>
       )}
 
