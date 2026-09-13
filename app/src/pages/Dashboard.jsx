@@ -4,6 +4,7 @@ import StatusPill from '../components/StatusPill'
 import AlertFeed from '../components/AlertFeed'
 import ReplayTimeline from '../components/ReplayTimeline'
 import LiveScore from '../components/LiveScore'
+import DaoCoverage from '../components/DaoCoverage'
 import { protocols, alertFeedSeed, formatUsd } from '../data/mock'
 import './dashboard.css'
 
@@ -42,12 +43,13 @@ export default function Dashboard() {
       </div>
 
       <div className="container">
+        <DaoCoverage />
         <LiveScore />
       </div>
 
       <div className="container dash-grid">
         <div className="protocol-list">
-          <div className="list-head mono">MONITORED PROTOCOLS</div>
+          <div className="list-head mono">ILLUSTRATIVE PORTFOLIO</div>
           {protocols.map((p) => (
             <button
               key={p.id}
@@ -107,7 +109,7 @@ export default function Dashboard() {
         </div>
 
         <div className="alert-panel">
-          <div className="list-head mono">ALERT FEED</div>
+          <div className="list-head mono">SIMULATED ALERT FEED</div>
           <AlertFeed alerts={alerts} />
         </div>
       </div>

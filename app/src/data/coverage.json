@@ -1,0 +1,839 @@
+{
+  "asOf": "2026-08-25",
+  "source": "User-supplied Ethereum mainnet scan; reported source: Covalent GoldRush",
+  "protocols": [
+    {
+      "id": "forth",
+      "name": "Ampleforth",
+      "ticker": "FORTH",
+      "chain": "eth-mainnet",
+      "treasuries": [],
+      "screen": null
+    },
+    {
+      "id": "lido",
+      "name": "Lido",
+      "ticker": "LDO",
+      "chain": "eth-mainnet",
+      "treasuries": [
+        {
+          "name": "Lido DAO (Agent)",
+          "liquidUSD": 87207658.0,
+          "totalUSD": 130116533.0,
+          "reportedExecution": "Aragon vote + multisig execution",
+          "holdings": [
+            {
+              "token": "stETH",
+              "usd": 68419200.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "LDO",
+              "usd": 42907436.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "USDC",
+              "usd": 9806800.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "USDT",
+              "usd": 5533935.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "DAI",
+              "usd": 2321277.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "sUSDS",
+              "usd": 765094.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "wstETH",
+              "usd": 342352.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "ETH",
+              "usd": 19000.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "SYND",
+              "usd": 1439.0,
+              "reportedClass": "native / other"
+            }
+          ]
+        }
+      ],
+      "screen": null
+    },
+    {
+      "id": "aave",
+      "name": "Aave",
+      "ticker": "AAVE",
+      "chain": "eth-mainnet",
+      "treasuries": [
+        {
+          "name": "Aave (Collector)",
+          "liquidUSD": 25838916.0,
+          "totalUSD": 27542253.0,
+          "reportedExecution": "Governor + timelock + guardian",
+          "holdings": [
+            {
+              "token": "aEthWETH",
+              "usd": 12234080.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "aEthWBTC",
+              "usd": 5719195.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "aEthUSDT",
+              "usd": 3334097.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "aEthUSDC",
+              "usd": 2691050.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "ETH",
+              "usd": 1305721.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "aEthAAVE",
+              "usd": 833940.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "aEthLINK",
+              "usd": 665371.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "aEthwstETH",
+              "usd": 201147.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "aEthrETH",
+              "usd": 147450.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "GHO",
+              "usd": 55662.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "GUSD",
+              "usd": 54073.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "aEthUNI",
+              "usd": 49829.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "TUSD",
+              "usd": 43159.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "aEthDAI",
+              "usd": 42208.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "aEthcbETH",
+              "usd": 28260.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "aWETH",
+              "usd": 25345.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "aUSDC",
+              "usd": 23167.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "aEthCRV",
+              "usd": 21459.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "aUSDT",
+              "usd": 16022.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "BUSD",
+              "usd": 13956.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "aSTETH",
+              "usd": 8326.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "aDAI",
+              "usd": 5458.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "USDC",
+              "usd": 5288.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "USDP",
+              "usd": 4043.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "aWBTC",
+              "usd": 3965.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "aEthLDO",
+              "usd": 3298.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "sENA",
+              "usd": 2075.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "DPI",
+              "usd": 1745.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "stETH",
+              "usd": 1743.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "MKR",
+              "usd": 1121.0,
+              "reportedClass": "native / other"
+            }
+          ]
+        },
+        {
+          "name": "Aave (Eco Reserve)",
+          "liquidUSD": 0.0,
+          "totalUSD": 72999350.0,
+          "reportedExecution": "Governor + timelock + guardian",
+          "holdings": [
+            {
+              "token": "AAVE",
+              "usd": 72999350.0,
+              "reportedClass": "native / other"
+            }
+          ]
+        }
+      ],
+      "screen": null
+    },
+    {
+      "id": "ens",
+      "name": "ENS",
+      "ticker": "ENS",
+      "chain": "eth-mainnet",
+      "treasuries": [
+        {
+          "name": "ENS DAO",
+          "liquidUSD": 18536213.0,
+          "totalUSD": 67785076.0,
+          "reportedExecution": "Governor + timelock",
+          "holdings": [
+            {
+              "token": "ENS",
+              "usd": 49247424.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "ETH",
+              "usd": 11011407.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "USDC",
+              "usd": 7524806.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "SYND",
+              "usd": 1439.0,
+              "reportedClass": "native / other"
+            }
+          ]
+        }
+      ],
+      "screen": null
+    },
+    {
+      "id": "nouns",
+      "name": "Nouns",
+      "ticker": "NOUN",
+      "chain": "eth-mainnet",
+      "treasuries": [
+        {
+          "name": "Nouns DAO (Executor)",
+          "liquidUSD": 10277538.0,
+          "totalUSD": 10281830.0,
+          "reportedExecution": "Governor + timelock (direct treasury)",
+          "holdings": [
+            {
+              "token": "wstETH",
+              "usd": 6484391.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "mETH",
+              "usd": 2510149.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "USDC",
+              "usd": 483095.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "rETH",
+              "usd": 465856.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "ETH",
+              "usd": 199407.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "WETH",
+              "usd": 134640.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "ENS",
+              "usd": 2853.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "SYND",
+              "usd": 1439.0,
+              "reportedClass": "native / other"
+            }
+          ]
+        }
+      ],
+      "screen": null
+    },
+    {
+      "id": "comp",
+      "name": "Compound",
+      "ticker": "COMP",
+      "chain": "eth-mainnet",
+      "treasuries": [
+        {
+          "name": "Compound (Timelock)",
+          "liquidUSD": 7618752.0,
+          "totalUSD": 7634679.0,
+          "reportedExecution": "Governor Bravo + timelock",
+          "holdings": [
+            {
+              "token": "ETH",
+              "usd": 6933408.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "WBTC",
+              "usd": 559916.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "USDC",
+              "usd": 125428.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "UNI",
+              "usd": 9605.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "FEI",
+              "usd": 6322.0,
+              "reportedClass": "native / other"
+            }
+          ]
+        }
+      ],
+      "screen": null
+    },
+    {
+      "id": "frax",
+      "name": "Frax",
+      "ticker": "FXS",
+      "chain": "eth-mainnet",
+      "treasuries": [
+        {
+          "name": "Frax (Comptroller)",
+          "liquidUSD": 2805865.0,
+          "totalUSD": 6020807.0,
+          "reportedExecution": "Comptroller multisig",
+          "holdings": [
+            {
+              "token": "WFRAX",
+              "usd": 1613742.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "ETH",
+              "usd": 1416841.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "sfrxETH",
+              "usd": 1288474.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "FXS",
+              "usd": 810735.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "FRAX",
+              "usd": 635460.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "frxUSD",
+              "usd": 100550.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "WTGXX",
+              "usd": 65612.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "FPIS",
+              "usd": 50380.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "cvxCRV",
+              "usd": 27600.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "BUIDL",
+              "usd": 9974.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "SYND",
+              "usd": 1439.0,
+              "reportedClass": "native / other"
+            }
+          ]
+        }
+      ],
+      "screen": {
+        "spotTwoPercentEstimateUSD": 588000.0,
+        "reportedTop10Share": "79.5%",
+        "reportedTreasuryFinding": "$2.8M liquid, multisig-gated"
+      }
+    },
+    {
+      "id": "gitcoin",
+      "name": "Gitcoin",
+      "ticker": "GTC",
+      "chain": "eth-mainnet",
+      "treasuries": [
+        {
+          "name": "Gitcoin (Timelock)",
+          "liquidUSD": 1241068.0,
+          "totalUSD": 1774938.0,
+          "reportedExecution": "Governor Bravo + timelock",
+          "holdings": [
+            {
+              "token": "ETH",
+              "usd": 1098447.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "ENS",
+              "usd": 265794.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "USDC",
+              "usd": 101834.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "UNI",
+              "usd": 73727.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "AAVE",
+              "usd": 57509.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "GNO",
+              "usd": 49706.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "DAI",
+              "usd": 37010.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "MASK",
+              "usd": 29706.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "RAI",
+              "usd": 23443.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "RPL",
+              "usd": 12667.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "ALCX",
+              "usd": 6297.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "FRAX",
+              "usd": 3974.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "SNX",
+              "usd": 3970.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "CC",
+              "usd": 2608.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "DAI",
+              "usd": 2267.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "GTC",
+              "usd": 2252.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "WETH",
+              "usd": 1510.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "SAFE",
+              "usd": 1205.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "GRT",
+              "usd": 1012.0,
+              "reportedClass": "native / other"
+            }
+          ]
+        }
+      ],
+      "screen": {
+        "spotTwoPercentEstimateUSD": 163000.0,
+        "reportedTop10Share": "69.9%",
+        "reportedTreasuryFinding": "$1.2M liquid, timelock-gated"
+      }
+    },
+    {
+      "id": "balancer",
+      "name": "Balancer",
+      "ticker": "BAL",
+      "chain": "eth-mainnet",
+      "treasuries": [
+        {
+          "name": "Balancer DAO",
+          "liquidUSD": 968879.0,
+          "totalUSD": 979435.0,
+          "reportedExecution": "Multisig + timelock",
+          "holdings": [
+            {
+              "token": "WETH",
+              "usd": 460474.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "wstETH",
+              "usd": 244029.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "rETH",
+              "usd": 224482.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "osETH",
+              "usd": 22483.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "USDe",
+              "usd": 12476.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "COW",
+              "usd": 10556.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "weETH",
+              "usd": 4935.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            }
+          ]
+        }
+      ],
+      "screen": null
+    },
+    {
+      "id": "radworks",
+      "name": "Radworks",
+      "ticker": "RAD",
+      "chain": "eth-mainnet",
+      "treasuries": [
+        {
+          "name": "Radworks",
+          "liquidUSD": 464510.0,
+          "totalUSD": 10040776.0,
+          "reportedExecution": "Governor + timelock",
+          "holdings": [
+            {
+              "token": "RAD",
+              "usd": 9534966.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "USDC",
+              "usd": 318048.0,
+              "reportedClass": "liquid (stable)"
+            },
+            {
+              "token": "WETH",
+              "usd": 146462.0,
+              "reportedClass": "liquid (ETH/BTC)"
+            },
+            {
+              "token": "GTC",
+              "usd": 41300.0,
+              "reportedClass": "native / other"
+            }
+          ]
+        }
+      ],
+      "screen": {
+        "spotTwoPercentEstimateUSD": 462000.0,
+        "reportedTop10Share": "76.8%",
+        "reportedTreasuryFinding": "$464K liquid, timelock-gated"
+      }
+    },
+    {
+      "id": "euler",
+      "name": "Euler",
+      "ticker": "EUL",
+      "chain": "eth-mainnet",
+      "treasuries": [
+        {
+          "name": "Euler",
+          "liquidUSD": 346309.0,
+          "totalUSD": 1322567.0,
+          "reportedExecution": "Treasury multisig",
+          "holdings": [
+            {
+              "token": "EUL",
+              "usd": 976258.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "USD0",
+              "usd": 346309.0,
+              "reportedClass": "liquid (stable)"
+            }
+          ]
+        }
+      ],
+      "screen": {
+        "spotTwoPercentEstimateUSD": 754000.0,
+        "reportedTop10Share": "58.6%",
+        "reportedTreasuryFinding": "$346K liquid, multisig-gated"
+      }
+    },
+    {
+      "id": "uni",
+      "name": "Uniswap",
+      "ticker": "UNI",
+      "chain": "eth-mainnet",
+      "treasuries": [
+        {
+          "name": "Uniswap (Timelock)",
+          "liquidUSD": 0.0,
+          "totalUSD": 1143286900.0,
+          "reportedExecution": "Governor + timelock",
+          "holdings": [
+            {
+              "token": "UNI",
+              "usd": 1143286900.0,
+              "reportedClass": "native / other"
+            }
+          ]
+        }
+      ],
+      "screen": null
+    },
+    {
+      "id": "maker",
+      "name": "MakerDAO / Sky",
+      "ticker": "MKR / SKY",
+      "chain": "eth-mainnet",
+      "treasuries": [
+        {
+          "name": "MakerDAO (Pause Proxy)",
+          "liquidUSD": 0.0,
+          "totalUSD": 160840154.0,
+          "reportedExecution": "Direct (governance module)",
+          "holdings": [
+            {
+              "token": "SPK",
+              "usd": 90406120.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "GROVE",
+              "usd": 68024664.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "SKY",
+              "usd": 2332509.0,
+              "reportedClass": "native / other"
+            },
+            {
+              "token": "MKR",
+              "usd": 76861.0,
+              "reportedClass": "native / other"
+            }
+          ]
+        }
+      ],
+      "screen": null
+    },
+    {
+      "id": "instadapp",
+      "name": "Instadapp",
+      "ticker": "INST",
+      "chain": "eth-mainnet",
+      "treasuries": [],
+      "screen": {
+        "spotTwoPercentEstimateUSD": 2600000.0,
+        "reportedTop10Share": "56.0%",
+        "reportedTreasuryFinding": "unverified this pass"
+      }
+    },
+    {
+      "id": "hop",
+      "name": "Hop",
+      "ticker": "HOP",
+      "chain": "eth-mainnet",
+      "treasuries": [],
+      "screen": {
+        "spotTwoPercentEstimateUSD": 10000.0,
+        "reportedTop10Share": "72.1%",
+        "reportedTreasuryFinding": "~$0 liquid on mainnet"
+      }
+    },
+    {
+      "id": "truefi",
+      "name": "TrueFi",
+      "ticker": "TRU",
+      "chain": "eth-mainnet",
+      "treasuries": [],
+      "screen": {
+        "spotTwoPercentEstimateUSD": 25000.0,
+        "reportedTop10Share": "65.4%",
+        "reportedTreasuryFinding": "no vote-reachable liquid found"
+      }
+    },
+    {
+      "id": "cryptex",
+      "name": "Cryptex",
+      "ticker": "CTX",
+      "chain": "eth-mainnet",
+      "treasuries": [],
+      "screen": {
+        "spotTwoPercentEstimateUSD": 71000.0,
+        "reportedTop10Share": "78.7%",
+        "reportedTreasuryFinding": "no vote-reachable liquid found"
+      }
+    },
+    {
+      "id": "angle",
+      "name": "Angle",
+      "ticker": "ANGLE",
+      "chain": "eth-mainnet",
+      "treasuries": [],
+      "screen": {
+        "spotTwoPercentEstimateUSD": 4000.0,
+        "reportedTop10Share": "86.4%",
+        "reportedTreasuryFinding": "no vote-reachable liquid found"
+      }
+    },
+    {
+      "id": "silo",
+      "name": "Silo",
+      "ticker": "SILO",
+      "chain": "eth-mainnet",
+      "treasuries": [],
+      "screen": {
+        "spotTwoPercentEstimateUSD": 1000.0,
+        "reportedTop10Share": "58.5%",
+        "reportedTreasuryFinding": "no vote-reachable liquid found"
+      }
+    }
+  ]
+}

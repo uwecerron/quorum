@@ -19,19 +19,22 @@ function authHeaders(apiKey) {
 }
 
 async function goldrush(path, apiKey) {
-  const res = await fetch(`${BASE}${path}`, { headers: authHeaders(apiKey) })
+  const res = await fetch(`${BASE}${path}`, { headers: authHeaders(apiKey), signal: AbortSignal.timeout(8000), redirect: 'error' })
   if (!res.ok) {
-    const body = await res.text().catch(() => '')
-    throw new Error(`GoldRush ${res.status} on ${path} :: ${body.slice(0, 160)}`)
+    throw new Error(`GoldRush request failed (${res.status})`)
   }
   const json = await res.json()
-  if (json.error) throw new Error(`GoldRush error: ${json.error_message || 'unknown'}`)
+  if (!json || json.error || !json.data) throw new Error('Invalid GoldRush response')
   return json.data
 }
 
 function toUnits(raw, decimals) {
   // raw is a base-unit decimal string; return a float in whole tokens.
-  return parseFloat(raw) / 10 ** decimals
+  if (!Number.isInteger(decimals) || decimals < 0 || decimals > 36 ||
+      typeof raw !== 'string' || !/^\d+$/.test(raw)) throw new Error('Invalid token units')
+  const value = Number(raw) / 10 ** decimals
+  if (!Number.isFinite(value)) throw new Error('Invalid token units')
+  return value
 }
 
 // Factor: holder concentration.
@@ -42,11 +45,13 @@ export async function fetchConcentration(dao, apiKey) {
     `/${dao.chain}/tokens/${dao.token}/token_holders_v2/?page-size=1000&page-number=0`,
     apiKey,
   )
-  const items = (data && data.items) || []
+  const items = data?.items
+  if (!Array.isArray(items)) throw new Error('Missing GoldRush items')
   if (!items.length) throw new Error('no token holders returned')
 
-  const decimals = items[0].contract_decimals ?? 18
+  const decimals = items[0].contract_decimals
   const totalSupply = toUnits(items[0].total_supply, decimals)
+  if (!(totalSupply > 0)) throw new Error('Invalid total supply')
 
   // Exclude the protocol's own contracts from external concentration. A DAO
   // holding its own tokens in the treasury, timelock or governor, or supply
@@ -67,7 +72,8 @@ export async function fetchConcentration(dao, apiKey) {
     .sort((a, b) => b.bal - a.bal)
 
   const top10 = external.slice(0, 10).reduce((s, h) => s + h.bal, 0)
-  const top10Share = totalSupply > 0 ? top10 / totalSupply : 0
+  const top10Share = top10 / totalSupply
+  if (external.reduce((sum, holder) => sum + holder.bal, 0) > totalSupply * (1 + 1e-9)) throw new Error('Holder balances exceed supply')
 
   // HHI over the sampled external holders (top page), on share of total supply.
   const hhiSample = external.reduce((s, h) => {
@@ -84,17 +90,19 @@ export async function fetchConcentration(dao, apiKey) {
   }
 }
 
-// Factor: treasury value at risk.
+// Treasury balance total; governance reachability is not established.
 // Fungible, non-spam holdings only, so scam airdrops and NFTs do not inflate
 // the treasury figure and legitimate priced tokens are the only ones counted.
-export async function fetchValueAtRisk(dao, apiKey) {
+export async function fetchTreasuryTotal(dao, apiKey) {
   const data = await goldrush(
     `/${dao.chain}/address/${dao.treasury}/balances_v2/?quote-currency=USD&nft=false&no-nft-fetch=true`,
     apiKey,
   )
-  const items = (data && data.items) || []
+  const items = data?.items
+  if (!Array.isArray(items)) throw new Error('Missing GoldRush items')
+  if (items.some((it) => !it || (it.quote != null && (typeof it.quote !== 'number' || !Number.isFinite(it.quote) || it.quote < 0)))) throw new Error('Invalid treasury quote')
   const fungible = items.filter((it) => !it.is_spam && it.type !== 'nft' && (it.quote || 0) > 0)
-  const valueAtRiskUSD = fungible.reduce((s, it) => s + (it.quote || 0), 0)
+  const treasuryTotalUSD = fungible.reduce((s, it) => s + (it.quote || 0), 0)
 
   // Take the governance token's spot price if the treasury holds it.
   const gov = items.find(
@@ -102,7 +110,7 @@ export async function fetchValueAtRisk(dao, apiKey) {
   )
   const govSpotUSD = gov && gov.quote_rate ? gov.quote_rate : null
 
-  return { valueAtRiskUSD, govSpotUSD }
+  return { treasuryTotalUSD, govSpotUSD }
 }
 
 // If the treasury does not hold its own token, fetch spot via the pricing endpoint.
@@ -126,7 +134,14 @@ function clamp01(x) {
 
 // Combine the three factors into a 0 to 100 GASS.
 export function combineGass({ conc, var: varr, spotUSD, quorumTokens }) {
-  const captureCostFloorUSD = spotUSD != null ? quorumTokens * spotUSD : null
+  const positive = [conc.totalSupply, spotUSD, quorumTokens]
+  const nonnegative = [conc.top10Share, conc.hhiSample, varr.treasuryTotalUSD]
+  if (positive.some((n) => !Number.isFinite(n) || n <= 0) ||
+      nonnegative.some((n) => !Number.isFinite(n) || n < 0) ||
+      conc.top10Share > 1 + 1e-9 || quorumTokens > conc.totalSupply ||
+      !Number.isInteger(conc.holdersSampled) || conc.holdersSampled < 0 ||
+      !Number.isFinite(quorumTokens * spotUSD)) throw new Error('Invalid scoring inputs')
+  const captureCostFloorUSD = quorumTokens * spotUSD
 
   // affordability: how cheap, in absolute dollars, to buy quorum-passing power.
   // Log scale: about $50K or less is maximally capturable (see the 2 ETH
@@ -157,7 +172,7 @@ export function combineGass({ conc, var: varr, spotUSD, quorumTokens }) {
       easeOfQuorum: +(easeOfQuorum * 100).toFixed(0),
     },
     detail: {
-      valueAtRiskUSD: Math.round(varr.valueAtRiskUSD),
+      treasuryTotalUSD: Math.round(varr.treasuryTotalUSD),
       captureCostFloorUSD: captureCostFloorUSD != null ? Math.round(captureCostFloorUSD) : null,
       top10Share: +(conc.top10Share * 100).toFixed(1),
       hhiSample: +conc.hhiSample.toFixed(4),
@@ -172,17 +187,18 @@ export function combineGass({ conc, var: varr, spotUSD, quorumTokens }) {
 // Score one DAO.
 export async function scoreDao(daoId, apiKey) {
   const dao = DAOS[daoId]
-  if (!dao) throw new Error(`unknown dao: ${daoId}`)
+  if (!Object.hasOwn(DAOS, daoId)) throw new Error(`unknown dao: ${daoId}`)
+  if (dao.status === 'research') throw new Error(`coverage pending for ${dao.name}: ${dao.missing.join('; ')}`)
   if (!apiKey) throw new Error('missing GOLDRUSH_API_KEY')
 
   const [conc, varr] = await Promise.all([
     fetchConcentration(dao, apiKey),
-    fetchValueAtRisk(dao, apiKey),
+    fetchTreasuryTotal(dao, apiKey),
   ])
 
   let spotUSD = varr.govSpotUSD
   if (spotUSD == null) spotUSD = await fetchSpotPrice(dao, apiKey)
-  if (!(spotUSD > 0)) {
+  if (!Number.isFinite(spotUSD) || !(spotUSD > 0)) {
     // No usable price means we cannot compute an accurate capture cost.
     // Fail loudly rather than emit a misleadingly low (safe-looking) score.
     throw new Error(`no spot price available for ${dao.ticker}; score not computed`)
@@ -199,11 +215,12 @@ export async function scoreDao(daoId, apiKey) {
   return {
     dao: { id: dao.id, name: dao.name, ticker: dao.ticker, chain: dao.chain },
     ...scored,
-    source: 'Covalent GoldRush',
+    source: 'GoldRush by Covalent',
     version: 'GASS v0',
     computedNote:
       'GASS v0 from live on-chain data: affordability, concentration and ease of quorum. ' +
-      'Capture cost is a spot-price floor and ignores DEX slippage, so real acquisition ' +
-      'cost is higher. Timelock, guardian and turnout factors are planned for v1.',
+      'Quorum-cost estimate is spot price times configured quorum; it excludes slippage and does not establish control. ' +
+      'Treasury total includes native tokens and is not verified reachable value. ' +
+      'Quorum parameters are configured, not refreshed onchain. Timelock, guardian and turnout factors are not included.',
   }
 }
